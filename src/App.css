@@ -1,0 +1,82 @@
+body * {
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  color: #1c1a17;
+  font-family: "Quicksand", sans-serif;
+}
+
+.App {
+  background-image: url(./images/forest-background.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+}
+
+.app-nav {
+  height: 100vh;
+  position: absolute;
+  background-color: #262626;
+  overflow-x: hidden;
+  padding-top: 20px;
+  color: #dfdac6;
+}
+
+.app-nav {
+  right: 0;
+  width: 150px;
+  max-width: 0;
+  transition: max-width 1s;
+  left: unset;
+  top: 80px;
+  z-index: 1500;
+}
+
+#active {
+  max-width: 150px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+  width: 65%;
+  background-color: #ebeced;
+  border: 1px solid black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+  width: 75%;
+  background-color: #ebeced;
+}
+
+button {
+  display: block;
+  margin: 10px;
+}
+
+a {
+  text-decoration: none;
+}
+
+p {
+  padding: 10px;
+}
+
+.link {
+  color: purple;
+}

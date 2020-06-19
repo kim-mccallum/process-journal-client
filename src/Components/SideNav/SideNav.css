@@ -1,0 +1,29 @@
+ul {
+  list-style-type: none;
+  padding-left: 2px;
+}
+
+li {
+  padding: 10px;
+}
+
+.Nav_link:link {
+  padding: 6px 6px 6px 10px;
+  color: #fff;
+  text-decoration: none;
+}
+.Nav_link:visited {
+  color: #fff;
+}
+.Nav_link:hover {
+  color: yellow;
+}
+.Nav_link:active {
+  color: teal;
+}
+
+.activeRoute {
+  background-color: yellow;
+  border-bottom: 0.2rem solid teal;
+  cursor: not-allowed;
+}
