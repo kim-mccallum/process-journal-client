@@ -25,7 +25,7 @@ export default class App extends Component {
     // Just get the data for the fetch
     console.log(JSON.stringify(formData));
     // fetch("http://localhost:8000/api/users", {
-    fetch(`${config.API_ENDPOINT}/auth/users`, {
+    fetch(`${config.API_ENDPOINT}/auth/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
