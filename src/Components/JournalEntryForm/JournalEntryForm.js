@@ -1,18 +1,20 @@
 import React, { Component } from "react";
 import config from "../../config";
 import DatePicker from "react-datepicker";
-// import moment from "moment";
+import moment from "moment";
 
 import "react-datepicker/dist/react-datepicker.css";
 
 export default class JournalEntryForm extends Component {
+  debugger;
   state = {
+    // convert this to universal time!
     date: new Date(),
     goal: "",
     processVariable: "",
     habit: "",
     variable_value: "",
-    habit_value: "",
+    habit_value: "1",
   };
   // Make a fetch to all 3 endpoints to get: goal, variable, habit to put in state
   componentDidMount() {
@@ -67,6 +69,7 @@ export default class JournalEntryForm extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
   dateHandler = (selectedDate) => {
+    // make sure this is UTC (aka universal time c?)
     this.setState({
       date: selectedDate,
     });
@@ -75,13 +78,12 @@ export default class JournalEntryForm extends Component {
   submitHandler = (e) => {
     e.preventDefault();
     // get your values from state
-    let {
-      date,
-      processVariable,
-      variable_value,
-      habit,
-      habit_value,
-    } = this.state;
+    let { processVariable, variable_value, habit, habit_value } = this.state;
+
+    // make sure to change date UTC
+    let date = moment.utc(this.state.date); //.format("DD MM YYYY hh:mm:ss");
+    console.log(date);
+
     // set up your bodies
     const processVariableBody = {
       date,
@@ -133,7 +135,6 @@ export default class JournalEntryForm extends Component {
       .catch((err) => console.log(err));
   };
   render() {
-    console.log(this.state.date);
     // render the questions
     let formQuestions;
     if (!this.state.target_name) {
@@ -160,7 +161,6 @@ export default class JournalEntryForm extends Component {
       </fieldset>
     );
 
-    console.log(this.state);
     return (
       <form className="journal-entry-form" onSubmit={this.submitHandler}>
         <h2>Make a journal entry</h2>
