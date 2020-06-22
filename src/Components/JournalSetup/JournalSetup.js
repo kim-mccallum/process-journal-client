@@ -41,12 +41,12 @@ export default class JournalSetup extends Component {
         }
         return Promise.all([goalRes.json(), varRes.json(), habitRes.json()]);
       })
-      // put the values in state
-      .then(([goal, variable, habit]) => {
+      // put the values in state - CAN'T SEEM TO GET THIS DONE FOR AN OBJECT
+      .then(([goalRes, variableRes, habitRes]) => {
         this.setState({
-          goal: goal[0].goal,
-          processVariable: variable[0].process_variable,
-          habit: habit[0].habit,
+          goal: goalRes[0].goal,
+          processVariable: variableRes[0].process_variable,
+          habit: habitRes[0].habit,
         });
       })
       // catch and log errors
@@ -54,12 +54,13 @@ export default class JournalSetup extends Component {
         console.log(`Something went wrong. Here is the error: ${err}`);
       });
   }
-  // pass this down to - one job, change goal to empty
+  // THIS IS A MESS IN HERE - SORT OUT THE LOGIC/FUCNTIONALITY
+  // pass this down to - this function has one job, change goal to empty
   changeGoalHandler = (value) => {
     console.log("HELLO");
     this.setState({ goal: "" });
   };
-  // handle submit to make fetch - FIX THIS HERE!
+  // handle submit to make fetch - This function should get the value and pass it to fetch/update FIX THIS HERE!
   handleSubmit = (event, value) => {
     event.preventDefault();
     console.log(event.target.id);

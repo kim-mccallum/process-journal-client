@@ -8,50 +8,56 @@ import "react-datepicker/dist/react-datepicker.css";
 export default class JournalEntryForm extends Component {
   state = {
     date: new Date(),
-    target_value: "",
-    habit_value: "1",
+    goal: "",
+    processVariable: "",
+    habit: "",
+    variable_value: "",
+    habit_value: "",
   };
-  // Fetch the data to build the journal entry form
+  // Make a fetch to all 3 endpoints to get: goal, variable, habit to put in state
   componentDidMount() {
-    fetch(`${config.API_ENDPOINT}/journal-settings`, {
+    // specify URL's
+    const goalURL = `${config.API_ENDPOINT}/goals/current`;
+    const variableURL = `${config.API_ENDPOINT}/process-variables/current`;
+    const habitURL = `${config.API_ENDPOINT}/habits/current`;
+
+    const headerObject = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
-    })
-      .then((response) => {
-        if (response.status === 400) {
-          throw new Error(response.error);
+    };
+    // make fetch with Promise.all -
+    Promise.all([
+      fetch(goalURL, headerObject),
+      fetch(variableURL, headerObject),
+      fetch(habitURL, headerObject),
+    ])
+      .then(([goalRes, varRes, habitRes]) => {
+        if (!goalRes.ok) {
+          return goalRes.json().then((e) => Promise.reject(e));
         }
-        return response.json();
+        if (!varRes.ok) {
+          return varRes.json().then((e) => Promise.reject(e));
+        }
+        if (!habitRes.ok) {
+          return habitRes.json().then((e) => Promise.reject(e));
+        }
+        return Promise.all([goalRes.json(), varRes.json(), habitRes.json()]);
       })
-      .then((json) => {
-        // put the response data into state in order to render the questions
-        // before the response, the data should be null
-        console.log(json);
-        const {
-          id,
-          target_name,
-          type,
-          units,
-          target_description,
-          habit_name,
-          habit_description,
-        } = json;
+      // put the values in state - CAN'T SEEM TO GET THIS DONE FOR AN OBJECT
+      .then(([goalRes, variableRes, habitRes]) => {
         this.setState({
-          id,
-          target_name,
-          type,
-          units,
-          target_description,
-          habit_name,
-          habit_description,
+          goal: goalRes[0].goal,
+          processVariable: variableRes[0].process_variable,
+          habit: habitRes[0].habit,
         });
       })
+      // catch and log errors
       .catch((err) => {
-        // have a JSX <p> to render this error
-        this.setState({ error: err });
+        // have some JSX to render error info
+        console.log(`Something went wrong. Here is the error: ${err}`);
       });
   }
   // This doesn't seem to be putting the new values from the form into state
@@ -65,25 +71,58 @@ export default class JournalEntryForm extends Component {
       date: selectedDate,
     });
   };
+  // Makes two fetches to Entries - One habit and the other process variable
   submitHandler = (e) => {
     e.preventDefault();
-    // make a post request here to the entries
-    let { id, date, target_value, habit_value } = this.state;
-    const journal_id = id.toString();
-    const entryBody = {
-      journal_id,
+    // get your values from state
+    let {
       date,
-      target_value,
+      processVariable,
+      variable_value,
+      habit,
       habit_value,
+    } = this.state;
+    // set up your bodies
+    const processVariableBody = {
+      date,
+      type: "variable",
+      variable: processVariable,
+      value: variable_value,
     };
-    console.log(JSON.stringify(entryBody));
+    const habitBody = {
+      date,
+      type: "habit",
+      variable: habit,
+      value: habit_value,
+    };
+    console.log(JSON.stringify(processVariableBody));
+    console.log(JSON.stringify(habitBody));
+
+    // Post the process variable
     fetch(`${config.API_ENDPOINT}/entries`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
-      body: JSON.stringify(entryBody),
+      body: JSON.stringify(processVariableBody),
+    })
+      .then((res) => {
+        if (!res.status === 201) {
+          throw new Error({ message: "post failed for some reason" });
+        }
+      })
+      // have an error in state and display something in a <p> for the user
+      .catch((err) => console.log(err));
+
+    // Post the habit
+    fetch(`${config.API_ENDPOINT}/entries`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(habitBody),
     })
       .then((res) => {
         if (!res.status === 201) {
@@ -94,6 +133,7 @@ export default class JournalEntryForm extends Component {
       .catch((err) => console.log(err));
   };
   render() {
+    console.log(this.state.date);
     // render the questions
     let formQuestions;
     if (!this.state.target_name) {
@@ -102,16 +142,16 @@ export default class JournalEntryForm extends Component {
     // pull these out of state
     formQuestions = (
       <fieldset>
-        <label htmlFor="target_value">{this.state.target_name}</label>
-        <label>{this.state.target_description}</label>
+        {/* Make sure this is a number */}
+        <label htmlFor="variable_value">{this.state.processVariable}</label>
         <input
           type="text"
-          name="target_value"
+          name="variable_value"
           required
           onChange={this.changeHandler}
         ></input>
 
-        <label htmlFor="habit_value">{this.state.habit_name}</label>
+        <label htmlFor="habit_value">{this.state.habit}</label>
         <select name="habit_value" required onChange={this.changeHandler}>
           <option value="1">Yes</option>
           <option value="0">No</option>
