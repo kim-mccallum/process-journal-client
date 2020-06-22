@@ -5,13 +5,11 @@ import "./Landing.css";
 export default function Landing() {
   return (
     <form className="form-container">
+      <h1>Focus on the Process!</h1>
       <p>
-        Welcome to Life Logger. This custom journal application is designed to
-        help you see the big picture and stop 'losing the forest for the trees'.
-        Make daily logs of habits and metrics habits related to your individual
-        goals and Life Logger will help you find insight into how your habits
-        and activities affect your happiness, performance or... whatever you
-        want to track!
+        Goals are good for planning progress but an effective system of habits
+        creates progress. Use this app to set up goals, measure progress and
+        track habits that support your success.
       </p>
       <NavLink to={`/login`}>
         <button>Sign in</button>

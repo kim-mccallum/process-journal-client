@@ -36,7 +36,7 @@ export default class Banner extends Component {
           <figure className="logo-container">
             <img className="logo" src={logo} alt="trees logo" />
           </figure>
-          <h1 className="app-name">Life Logger</h1>
+          <h1 className="app-name">Process Journal</h1>
           {menu}
         </div>
         <SideNav

@@ -24,7 +24,8 @@ export default class Login extends Component {
         <form onSubmit={this.submitHandler}>
           <p>
             Sign in to your account. If you just want to check out the app, feel
-            free to sing in with the provided demo account to look around.
+            free to sign in with the provided demo account to look around. DON'T
+            FORGET TO PUT THIS IN
           </p>
           <label htmlFor="username">Username</label>
           <input

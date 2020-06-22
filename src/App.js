@@ -5,7 +5,7 @@ import Banner from "./Components/Banner/Banner";
 import Landing from "./Components/Landing/Landing";
 import Login from "./Components/Login/Login";
 import SignUp from "./Components/SignUp/SignUp";
-import JournalSetupForm from "./Components/JournalSetupForm/JournalSetupForm";
+import JournalSetup from "./Components/JournalSetup/JournalSetup";
 import JournalEntryForm from "./Components/JournalEntryForm/JournalEntryForm";
 import config from "./config";
 import "./App.css";
@@ -13,8 +13,6 @@ import "./App.css";
 export default class App extends Component {
   // just authentication here
   state = {
-    // after sign in, this will be changed with callback props
-    // SET THIS BACK TO false
     isAuth: false,
     error: false,
     authLoading: false,
@@ -105,7 +103,7 @@ export default class App extends Component {
       routes = (
         <Switch>
           <Route exact path="/" component={Landing} />
-          <Route exact path="/journal-setup" component={JournalSetupForm} />
+          <Route exact path="/journal-setup" component={JournalSetup} />
           <Route exact path="/journal-entry" component={JournalEntryForm} />
           <Route
             exact
