@@ -15,7 +15,8 @@ export default function JournalMetric(props) {
         The outcome you are working for. Make sure to set SMART goals (specific,
         measureable, acheivable, realistic and timely.
       </p>
-      {/* grab input value and send it to submit? Callback prop in JournalSetup RETURN */}
+
+      {/* GOAL - If the value exists, render it, otherwise, render an input with event handlers and dynamic attributes */}
       {props.goal ? (
         <p>{props.goal}</p>
       ) : (
@@ -48,11 +49,12 @@ export default function JournalMetric(props) {
         ></input>
       )}
       <ChangeMetric
-        text={variableButton}
-        label={"process_variable"}
         changeHandler={props.changeHandler}
         // pass the event and the value - figure out how to pass value? RESEARCH
         handleSubmit={() => props.handleSubmit()}
+        id="process_variable"
+        text={variableButton}
+        label={"process_variable"}
       />
 
       <h1 className="journal-metric">Habit</h1>
@@ -69,11 +71,12 @@ export default function JournalMetric(props) {
         ></input>
       )}
       <ChangeMetric
-        text={habitButton}
-        label={"habit"}
         changeHandler={props.changeHandler}
         // pass the event and the value - figure out how to pass value? RESEARCH
         handleSubmit={() => props.handleSubmit()}
+        id="habit"
+        text={habitButton}
+        label={"habit"}
       />
     </div>
   );

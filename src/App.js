@@ -18,6 +18,8 @@ class App extends Component {
     authLoading: false,
     username: "",
   };
+  // Need to fix this because currently the token expires
+  // HOW WOULD I MAKE THIS EXPIRE TOO?
   componentDidMount() {
     const token = window.localStorage.getItem("token");
     if (!token) {
@@ -28,11 +30,10 @@ class App extends Component {
       isAuth: true,
     });
   }
-  // SIGN UP FUNCTION - TO BE PASSED TO THE SIGNUP COMPONENT - THIS IS THE FETCH TO THE SIGNUP ENDPOINT
+  // Sign up function - POST requests to the signup endpoing
   signup = (formData) => {
-    // Just get the data for the fetch
+    // Get the data for the fetch from the signup form
     console.log(JSON.stringify(formData));
-    // fetch("http://localhost:8000/api/users", {
     fetch(`${config.API_ENDPOINT}/auth/signup`, {
       method: "POST",
       headers: {
@@ -47,9 +48,8 @@ class App extends Component {
         return response.json();
       })
       .then((user) => {
-        // probably redirect to login or dashboard with the token
-        // once the user signs up, log them in
         console.log("okay, we made a user! Now we log them in");
+        // once the user signs up, log them in
         this.login(formData);
       })
       .catch((err) => {
@@ -73,13 +73,12 @@ class App extends Component {
         return response.json();
       })
       .then((user) => {
-        // probably redirect to login or dashboard with the token
         // set in local storage
         window.localStorage.setItem("token", user.authToken);
-        // update
+        // update state
         this.setState({ isAuth: true, username: user.username });
         console.log(user.username, "is logged in!");
-        // after login
+        // after login redirecto to journal
         this.props.history.push("/journal-setup");
       })
       .catch((err) => {
@@ -132,7 +131,6 @@ class App extends Component {
     }
     return (
       <div className="App">
-        {/* PASS ISAUTH FOR CONDITIONAL RENDERING */}
         <Banner isAuth={this.state.isAuth} logout={this.logout} />
         {routes}
       </div>
@@ -140,5 +138,5 @@ class App extends Component {
   }
 }
 
-// use the withRouter to get access to history
+// use the withRouter to get access to history prop later
 export default withRouter(App);
