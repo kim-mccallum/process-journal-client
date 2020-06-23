@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, withRouter } from "react-router-dom";
 import Dashboard from "./Components/Dashboard/Dashboard";
 import Banner from "./Components/Banner/Banner";
 import Landing from "./Components/Landing/Landing";
@@ -10,7 +10,7 @@ import JournalEntryForm from "./Components/JournalEntryForm/JournalEntryForm";
 import config from "./config";
 import "./App.css";
 
-export default class App extends Component {
+class App extends Component {
   // just authentication here
   state = {
     isAuth: false,
@@ -18,6 +18,16 @@ export default class App extends Component {
     authLoading: false,
     username: "",
   };
+  componentDidMount() {
+    const token = window.localStorage.getItem("token");
+    if (!token) {
+      return;
+    }
+    // if the token exists, they have logged in successfully
+    this.setState({
+      isAuth: true,
+    });
+  }
   // SIGN UP FUNCTION - TO BE PASSED TO THE SIGNUP COMPONENT - THIS IS THE FETCH TO THE SIGNUP ENDPOINT
   signup = (formData) => {
     // Just get the data for the fetch
@@ -69,6 +79,8 @@ export default class App extends Component {
         // update
         this.setState({ isAuth: true, username: user.username });
         console.log(user.username, "is logged in!");
+        // after login
+        this.props.history.push("/journal-setup");
       })
       .catch((err) => {
         // have a JSX <p> to render this error
@@ -127,3 +139,6 @@ export default class App extends Component {
     );
   }
 }
+
+// use the withRouter to get access to history
+export default withRouter(App);

@@ -11,8 +11,6 @@ export default class Dashboard extends Component {
     activeButton: "",
     data: [],
     error: "",
-    // how can I get user name??
-    // user_id: window.localStorage.getItem("user_id"),
   };
 
   componentDidMount() {
@@ -32,8 +30,6 @@ export default class Dashboard extends Component {
       .then((json) => {
         // coerce the data into a format to put into state to pass to chart components
         // console.log(json);
-        // const {
-        // } = json;
         this.setState({
           data: json,
         });

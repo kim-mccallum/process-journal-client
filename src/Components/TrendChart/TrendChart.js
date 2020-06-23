@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Chart from "chart.js";
 import moment from "moment";
-import STORE from "../../STORE";
 
 export default class Dashboard extends Component {
   state = {
