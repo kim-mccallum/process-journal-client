@@ -11,7 +11,7 @@ export default class JournalEntryForm extends Component {
     // convert this to universal time!
     date: new Date(),
     goal: "",
-    processVariable: "",
+    process_variable: "",
     habit: "",
     variable_value: "",
     habit_value: "1",
@@ -19,9 +19,9 @@ export default class JournalEntryForm extends Component {
   // Make a fetch to all 3 endpoints to get: goal, variable, habit to put in state
   componentDidMount() {
     // specify URL's
-    const goalURL = `${config.API_ENDPOINT}/goals/current`;
-    const variableURL = `${config.API_ENDPOINT}/process-variables/current`;
-    const habitURL = `${config.API_ENDPOINT}/habits/current`;
+    const goalURL = `${config.API_ENDPOINT}/goal/current`;
+    const variableURL = `${config.API_ENDPOINT}/process_variable/current`;
+    const habitURL = `${config.API_ENDPOINT}/habit/current`;
 
     const headerObject = {
       method: "GET",
@@ -52,7 +52,7 @@ export default class JournalEntryForm extends Component {
       .then(([goalRes, variableRes, habitRes]) => {
         this.setState({
           goal: goalRes[0].goal,
-          processVariable: variableRes[0].process_variable,
+          process_variable: variableRes[0].process_variable,
           habit: habitRes[0].habit,
         });
       })
@@ -78,7 +78,7 @@ export default class JournalEntryForm extends Component {
   submitHandler = (e) => {
     e.preventDefault();
     // get your values from state
-    let { processVariable, variable_value, habit, habit_value } = this.state;
+    let { process_variable, variable_value, habit, habit_value } = this.state;
 
     // make sure to change date UTC
     let date = moment.utc(this.state.date); //.format("DD MM YYYY hh:mm:ss");
@@ -88,7 +88,7 @@ export default class JournalEntryForm extends Component {
     const processVariableBody = {
       date,
       type: "variable",
-      variable: processVariable,
+      variable: process_variable,
       value: variable_value,
     };
     const habitBody = {
@@ -135,6 +135,7 @@ export default class JournalEntryForm extends Component {
       .catch((err) => console.log(err));
   };
   render() {
+    console.log(this.state);
     // render the questions
     let formQuestions;
     if (!this.state.target_name) {
@@ -144,7 +145,7 @@ export default class JournalEntryForm extends Component {
     formQuestions = (
       <fieldset>
         {/* Make sure this is a number */}
-        <label htmlFor="variable_value">{this.state.processVariable}</label>
+        <label htmlFor="variable_value">{this.state.process_variable}</label>
         <input
           type="text"
           name="variable_value"
