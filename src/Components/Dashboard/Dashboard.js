@@ -9,7 +9,7 @@ import "./Dashboard.css";
 export default class Dashboard extends Component {
   state = {
     activeButton: "",
-    data: [],
+    data: {},
     error: "",
   };
 
@@ -28,12 +28,16 @@ export default class Dashboard extends Component {
         return response.json();
       })
       .then((json) => {
-        // coerce the data into a format to put into state to pass to chart components
         // console.log(json);
+        // coerce the data into a format to put into state to pass to chart components
         let sortedData = this.sortData(json);
+        // THIS IS CORRECTLY SORTED
         console.log(sortedData);
-        // FINISH THIS
-        // sortedData = this.setCurrentValues(sortedData);
+        // I CALL THIS TO CHANGE ONE PROPERTY
+        sortedData = this.setCurrentValues(sortedData);
+        // sortedData IS WHAT I WANT BUT IT'S NOT GOING INTO STATE
+        // I THINK I NEED TO CALL setState AS A CALLBACK AFTER setCurrentValues HAS RUN?
+        console.log("HERE IS SORTED", sortedData);
         this.setState({
           data: sortedData,
         });
@@ -85,13 +89,57 @@ export default class Dashboard extends Component {
 
   setCurrentValues = (sortedData) => {
     // fetch current habit and variable names - pull this from teh current response data
-    const currentHabit = "test";
-    const currentVariable = "test";
-    // one check for habit
-    if (sortedData.habit[currentHabit]) {
-      sortedData.habit[currentHabit].current = true;
-    }
-    // another for varaible - replicate the logic above
+    let currentHabit;
+    let currentVariable;
+
+    // specify URL's
+    const variableURL = `${config.API_ENDPOINT}/process_variable/current`;
+    const habitURL = `${config.API_ENDPOINT}/habit/current`;
+
+    const headerObject = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    };
+    // make fetch with Promise.all -
+    Promise.all([
+      fetch(variableURL, headerObject),
+      fetch(habitURL, headerObject),
+    ])
+      .then(([varRes, habitRes]) => {
+        if (!varRes.ok) {
+          return varRes.json().then((e) => Promise.reject(e));
+        }
+        if (!habitRes.ok) {
+          return habitRes.json().then((e) => Promise.reject(e));
+        }
+        return Promise.all([varRes.json(), habitRes.json()]);
+      })
+      // find the current variables and change the current property in the data to true
+      .then(([variableRes, habitRes]) => {
+        currentVariable = variableRes[0].process_variable;
+        currentHabit = habitRes[0].habit;
+        // find the 'current' variables and the their current property to true
+        console.log("here are the currents:", currentHabit, currentVariable);
+        // debugger;
+        // one check for habit
+        if (sortedData.habit[currentHabit]) {
+          console.log("we found current habit");
+          sortedData.habit[currentHabit].current = true;
+        }
+        // another for variable - replicate the logic above
+        if (sortedData.variable[currentHabit]) {
+          console.log("we found current habit");
+          sortedData.habit[currentVariable].current = true;
+        }
+      })
+      // catch and log errors
+      .catch((err) => {
+        console.log(`Something went wrong. Here is the error: ${err}`);
+      });
+    return sortedData;
   };
 
   render() {
@@ -117,8 +165,8 @@ export default class Dashboard extends Component {
           </div>
         </div>
         <div className="chart-container">
-          <DoughnutChart data={this.state.data} />
-          <TrendChart data={this.state.data} />
+          {/* <DoughnutChart data={this.state.data} /> */}
+          {/* <TrendChart data={this.state.data} /> */}
         </div>
       </div>
     );
