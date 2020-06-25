@@ -22,7 +22,7 @@ export default function JournalMetric(props) {
       ) : (
         <input
           type="text"
-          name={props.selectedLabel}
+          name="goal"
           onChange={props.changeInputHandler}
         ></input>
       )}
@@ -44,7 +44,7 @@ export default function JournalMetric(props) {
       ) : (
         <input
           type="text"
-          name={props.selectedLabel}
+          name="process_variable"
           onChange={props.changeInputHandler}
         ></input>
       )}
@@ -66,7 +66,7 @@ export default function JournalMetric(props) {
       ) : (
         <input
           type="text"
-          name={props.selectedLabel}
+          name="habit"
           onChange={props.changeInputHandler}
         ></input>
       )}

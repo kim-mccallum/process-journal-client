@@ -44,15 +44,6 @@ export default class JournalSetup extends Component {
       })
       // put the current values in state
       .then(([goalRes, variableRes, habitRes]) => {
-        // ADD SOME LOGIC TO SET STATE ONLY IF THEY EXIST - FOREACH??
-        // if (goalRes && variableRes && habitRes) {
-        //   this.setState({
-        //     goal: goalRes[0].goal,
-        //     process_variable: variableRes[0].process_variable,
-        //     habit: habitRes[0].habit,
-        //   });
-        // }
-        // THIS DOESN'T WORK FOR USERS THAT DON'T HAVE JOURNAL METRICS YET SETUP
         this.setState({
           goal: goalRes[0].goal,
           process_variable: variableRes[0].process_variable,
@@ -76,8 +67,16 @@ export default class JournalSetup extends Component {
   // grab the new input values and store them temporarily
   changeInputHandler = (event) => {
     console.log(event.target.name);
-    // console.log(event.target.value);
-    this.setState({ [`${event.target.name}_input`]: event.target.value });
+
+    // if (!this.state.selectedLabel) {
+    //   this.setState({ selectedLabel: event.target.name });
+    // }
+    // this.setState({ selectedLabel: event.target.name });
+
+    this.setState({
+      selectedLabel: event.target.name,
+      [`${event.target.name}_input`]: event.target.value,
+    });
   };
   // handle submit to make fetch - This function should get the value and pass it to fetch/update FIX THIS HERE!
   // PROBLEM IS THAT THE SELECTEDLABEL IS AN EMPTY STRING AT FIRST
