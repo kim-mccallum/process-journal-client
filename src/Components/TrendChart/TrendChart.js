@@ -5,7 +5,8 @@ import moment from "moment";
 export default class Dashboard extends Component {
   state = {
     activeButton: "",
-    trendData: [],
+    // DON'T LEAVE THESE IN HERE! THESE SHOULD BE PASSED AS PROPS FROM DASHBOARD
+    currentMetrics: { habit: "12 hour daily nap", variable: "frisbee score" },
   };
 
   componentDidUpdate(prevProps) {
@@ -18,33 +19,29 @@ export default class Dashboard extends Component {
     //  grab the canvas and getContext
     let ctx = document.getElementById("dashboard-chart").getContext("2d");
 
-    // create datasets array
-    let datasetsArray = [];
-    Object.keys(trendData).map((key, index) => {
-      if (index === 1) {
-        datasetsArray.push({
-          label: key,
-          data: trendData[key],
-          type: "line",
-          yAxisID: "A",
-          backgroundColor: "#EBCCD1",
-        });
-      } else {
-        datasetsArray.push({
-          label: key,
-          data: trendData[key],
-          yAxisID: "B",
-          backgroundColor: "#D6E9C6",
-        });
-      }
-    });
     let myChart = new Chart(ctx, {
       type: "bar",
       data: {
         // REPLACE WITH STATE
         // convert dates to short format
-        labels: trendData.dates.map((dt) => moment(dt).format("L")),
-        datasets: datasetsArray,
+        labels: trendData.habit[
+          this.state.currentMetrics.habit
+        ].dates.map((dt) => moment(dt).format("L")),
+        datasets: [
+          {
+            label: this.state.currentMetrics.habit,
+            data: trendData.habit[this.state.currentMetrics.habit].values,
+            yAxisID: "B",
+            backgroundColor: "#FAEBCC", // yellow
+          },
+          {
+            label: this.state.currentMetrics.variable,
+            data: trendData.variable[this.state.currentMetrics.variable].values,
+            type: "line",
+            yAxisID: "A",
+            backgroundColor: "#EBCCD1", // red
+          },
+        ],
       },
       options: {
         scales: {

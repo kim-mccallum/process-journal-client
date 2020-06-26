@@ -78,7 +78,7 @@ class App extends Component {
         // update state
         this.setState({ isAuth: true, username: user.username });
         console.log(user.username, "is logged in!");
-        // after login redirecto to journal
+        // after login redirect to to journal
         this.props.history.push("/journal-setup");
       })
       .catch((err) => {
@@ -122,6 +122,7 @@ class App extends Component {
             component={(routeProps) => (
               <Dashboard
                 routeProps={routeProps}
+                // THIS SEEMS TO BE UNDEFINED WHEN IT GETS PASSED - IS THIS AN ASYNC ISSUE?
                 username={this.state.username}
               />
             )}
