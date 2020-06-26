@@ -9,6 +9,8 @@ import "./Dashboard.css";
 export default class Dashboard extends Component {
   state = {
     activeButton: "",
+    // USE THIS TO CONDITIONALLY RENDER THE COMPONENTS THAT NEED DATA?
+    dataLoading: true,
     data: {},
     currentMetrics: "",
     error: "",
@@ -39,6 +41,7 @@ export default class Dashboard extends Component {
         // THE FINAL SETSTATE
         this.setState({
           data: sortedData,
+          dataLoading: false,
         });
       })
       .catch((err) => {
@@ -121,7 +124,7 @@ export default class Dashboard extends Component {
         console.log("here are the currents:", currentHabit, currentVariable);
         // THIS DOESN'T APPEAR TO BE WORKING
         this.setState({
-          currentMetrics: { currentHabit, currentVariable },
+          currentMetrics: { habit: currentHabit, variable: currentVariable },
         });
       })
       // catch and log errors
@@ -133,9 +136,26 @@ export default class Dashboard extends Component {
   render() {
     console.log(this.state);
     console.log(this.props.username);
+    // TO DO
     // Get the current variable and habit values for the text
     // Get the average value for variables
     // Get the percent of habits
+
+    // If the data are loading, render the charts (!dataLoading)
+    let chartComponents = !this.state.dataLoading ? (
+      <div className="chart-container">
+        <DoughnutChart
+          data={this.state.data}
+          habit={this.state.currentMetrics.habit}
+        />
+        <TrendChart
+          data={this.state.data}
+          currentMetrics={this.state.currentMetrics}
+        />
+      </div>
+    ) : (
+      <h1>Data loading!</h1>
+    );
     return (
       <div className="dashboard-container">
         <div className="summary-container">
@@ -154,13 +174,7 @@ export default class Dashboard extends Component {
             <p>Supporting Habit: Meditation</p>
           </div>
         </div>
-        <div className="chart-container">
-          {/* <DoughnutChart data={this.state.data} /> */}
-          <TrendChart
-            data={this.state.data}
-            currentMetrics={this.state.currentMetrics}
-          />
-        </div>
+        {chartComponents}
       </div>
     );
   }

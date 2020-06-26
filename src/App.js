@@ -13,7 +13,8 @@ import "./App.css";
 class App extends Component {
   // just authentication here
   state = {
-    isAuth: false,
+    // set this back to false
+    isAuth: true,
     error: false,
     authLoading: false,
     username: "",
@@ -27,7 +28,7 @@ class App extends Component {
     }
     // if the token exists, they have logged in successfully
     this.setState({
-      isAuth: true,
+      isAuth: false,
     });
   }
   // Sign up function - POST requests to the signup endpoing
@@ -80,6 +81,8 @@ class App extends Component {
         console.log(user.username, "is logged in!");
         // after login redirect to to journal
         this.props.history.push("/journal-setup");
+        // CHANGE THIS BACK TO JOURNAL-SETUP LATER
+        this.props.history.push("/dashboard");
       })
       .catch((err) => {
         // have a JSX <p> to render this error
@@ -92,6 +95,7 @@ class App extends Component {
   };
 
   render() {
+    console.log(this.state.isAuth);
     let routes;
     routes = (
       <Switch>

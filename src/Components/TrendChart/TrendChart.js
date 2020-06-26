@@ -10,10 +10,10 @@ export default class Dashboard extends Component {
   };
 
   componentDidUpdate(prevProps) {
-    console.log(this.props);
+    // console.log(this.props);
     // transform data
     const currentMetrics = this.props.currentMetrics;
-    console.log(currentMetrics);
+    // console.log(currentMetrics);
     const trendData = this.props.data;
 
     //  grab the canvas and getContext
@@ -69,7 +69,7 @@ export default class Dashboard extends Component {
   }
 
   render() {
-    console.log(this.props);
+    // console.log(this.props);
     return (
       <div className="trendchart-container">
         <canvas id="dashboard-chart" width="600" height="300"></canvas>
