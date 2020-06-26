@@ -10,6 +10,7 @@ export default class Dashboard extends Component {
   state = {
     activeButton: "",
     data: {},
+    currentMetrics: "",
     error: "",
   };
 
@@ -28,16 +29,14 @@ export default class Dashboard extends Component {
         return response.json();
       })
       .then((json) => {
-        // console.log(json);
-        // coerce the data into a format to put into state to pass to chart components
+        // transform the data into a format to put into state to pass to chart components
+        // PROBLEMS HERE - TOO MANY SET STATES AND THIS IS FLAKY AND NOT WORKING - WHEN I PASS THE STATE VALUES TO THE CHILD, THEY ARE UNDEFINED
+        // sortData SETS STATE
         let sortedData = this.sortData(json);
-        // THIS IS CORRECTLY SORTED
-        console.log(sortedData);
-        // I CALL THIS TO CHANGE ONE PROPERTY
-        sortedData = this.setCurrentValues(sortedData);
-        // sortedData IS WHAT I WANT BUT IT'S NOT GOING INTO STATE
-        // I THINK I NEED TO CALL setState AS A CALLBACK AFTER setCurrentValues HAS RUN?
-        console.log("HERE IS SORTED", sortedData);
+        // I THINK I SHOULD ONLY SET STATE ONCE AND USE ASYNC/AWAY OR A CALLBACK SO THAT THE CURRENT VALUES AND SORTED DATA ARE PUT INTO STATE AT THE SAME TIME.
+        // setCurrentValues ALSO SETS STATE AFTER IT MAKES AN API CALL
+        this.setCurrentMetrics();
+        // THE FINAL SETSTATE
         this.setState({
           data: sortedData,
         });
@@ -53,14 +52,12 @@ export default class Dashboard extends Component {
     // an object to push the unique habit/variables to
     let outObject = { habit: {}, variable: {} };
     // loop through array
-    // console.log(entriesArray)
     entriesArray.forEach((item) => {
       // we need to know it's type
       if (item.type === "habit") {
         // if it doesn't exist, build the bare object
         if (!outObject.habit[item.variable]) {
           outObject.habit[item.variable] = {
-            current: false,
             dates: [],
             values: [],
           };
@@ -74,7 +71,6 @@ export default class Dashboard extends Component {
         // if it doesn't exist, build the bare object
         if (!outObject.variable[item.variable]) {
           outObject.variable[item.variable] = {
-            current: false,
             dates: [],
             values: [],
           };
@@ -87,8 +83,8 @@ export default class Dashboard extends Component {
     return outObject;
   };
 
-  setCurrentValues = (sortedData) => {
-    // fetch current habit and variable names - pull this from teh current response data
+  setCurrentMetrics = () => {
+    // fetch current habit and variable names - pull this from the current response data
     let currentHabit;
     let currentVariable;
 
@@ -121,52 +117,49 @@ export default class Dashboard extends Component {
       .then(([variableRes, habitRes]) => {
         currentVariable = variableRes[0].process_variable;
         currentHabit = habitRes[0].habit;
-        // find the 'current' variables and the their current property to true
+        // SHOULD THIS RETURN THE CURRENT VALUES AND SET STATE IN COMPONENT DID MOUNT?
         console.log("here are the currents:", currentHabit, currentVariable);
-        // debugger;
-        // one check for habit
-        if (sortedData.habit[currentHabit]) {
-          console.log("we found current habit");
-          sortedData.habit[currentHabit].current = true;
-        }
-        // another for variable - replicate the logic above
-        if (sortedData.variable[currentHabit]) {
-          console.log("we found current habit");
-          sortedData.habit[currentVariable].current = true;
-        }
+        // THIS DOESN'T APPEAR TO BE WORKING
+        this.setState({
+          currentMetrics: { currentHabit, currentVariable },
+        });
       })
       // catch and log errors
       .catch((err) => {
         console.log(`Something went wrong. Here is the error: ${err}`);
       });
-    return sortedData;
   };
 
   render() {
-    console.log(this.state.data);
-    // let formQuestions;
-    // if (!this.state.target_name) {
-    //   formQuestions = <h1>Fetching your journal questions...</h1>;
-    // }
+    console.log(this.state);
+    console.log(this.props.username);
+    // Get the current variable and habit values for the text
+    // Get the average value for variables
+    // Get the percent of habits
     return (
       <div className="dashboard-container">
         <div className="summary-container">
           <h2 className="greeting">
             {/* FIX THIS */}
-            Welcome, {this.props.username}
+            Welcome, {this.props.username}!
           </h2>
           <p>
-            SUMMARY STATS: You have logged [x] days and your habit [50%] of the
-            time. You weekly average [sleep] is [6 hours]
+            SUMMARY STATS ARE NOT DONE: You have made{" "}
+            {/* {this.state.data.habit[this.state.currentHabit].length}  */}
+            entries and your habit [50%] of the time. You weekly average [sleep]
+            is [6 hours]
           </p>
           <div className="stats">
-            <p>Target: Sleep - 7 hour average</p>
+            <p>Process variable: Sleep - 7 hour average</p>
             <p>Supporting Habit: Meditation</p>
           </div>
         </div>
         <div className="chart-container">
           {/* <DoughnutChart data={this.state.data} /> */}
-          {/* <TrendChart data={this.state.data} /> */}
+          <TrendChart
+            data={this.state.data}
+            currentMetrics={this.state.currentMetrics}
+          />
         </div>
       </div>
     );

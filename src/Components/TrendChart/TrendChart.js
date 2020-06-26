@@ -11,8 +11,9 @@ export default class Dashboard extends Component {
   componentDidUpdate(prevProps) {
     console.log(this.props);
     // transform data
-    const trendData = this.transformData();
-    console.log(trendData);
+    const currentMetrics = this.props.currentMetrics;
+    console.log(currentMetrics);
+    const trendData = this.props.data;
 
     //  grab the canvas and getContext
     let ctx = document.getElementById("dashboard-chart").getContext("2d");
@@ -69,29 +70,9 @@ export default class Dashboard extends Component {
       },
     });
   }
-  transformData = () => {
-    let dataObject = {
-      dates: [],
-    };
-    // forEach over this.props.data - {date: [date1, date2, date3], meditation: [0,1, 1],  sleep: [5, 7, 6]}
-    // console.log(this.props);
-    let firstEntry = this.props.data[0];
-    console.log(firstEntry);
 
-    dataObject[firstEntry.target_name] = [];
-    dataObject[firstEntry.habit_name] = [];
-
-    this.props.data.forEach((entry) => {
-      dataObject.dates.push(entry.date);
-      // create the key value pair
-      dataObject[entry.target_name].push(parseInt(entry.target_value));
-      dataObject[entry.habit_name].push(entry.habit_value);
-    });
-
-    return dataObject;
-  };
   render() {
-    // console.log(this.props);
+    console.log(this.props);
     return (
       <div className="trendchart-container">
         <canvas id="dashboard-chart" width="600" height="300"></canvas>
