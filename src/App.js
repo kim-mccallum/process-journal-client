@@ -34,7 +34,7 @@ class App extends Component {
   // Sign up function - POST requests to the signup endpoing
   signup = (formData) => {
     // Get the data for the fetch from the signup form
-    console.log(JSON.stringify(formData));
+    // console.log(JSON.stringify(formData));
     fetch(`${config.API_ENDPOINT}/auth/signup`, {
       method: "POST",
       headers: {

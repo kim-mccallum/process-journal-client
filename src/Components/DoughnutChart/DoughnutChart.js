@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Chart from "chart.js";
 import moment from "moment";
-import STORE from "../../STORE";
 
 const getChartData = (habitValArray) => {
   let chartData = {
@@ -46,12 +45,6 @@ export default class DoughnutChart extends Component {
     });
   }
   render() {
-    console.log(this.props);
-    if (this.props.data.habit) {
-      let valuesArr = this.props.data.habit[this.props.habit].values;
-      let testData = getChartData(valuesArr);
-      console.log("here is what doughnut is graphing", testData);
-    }
     return (
       <div className="doughnut-container">
         <canvas id="dashboard-pie-chart" responsive="true"></canvas>
