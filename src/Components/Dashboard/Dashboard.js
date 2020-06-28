@@ -20,10 +20,12 @@ export default class Dashboard extends Component {
     // fetch current habit and variable names - pull this from the current response data
     let currentHabit;
     let currentVariable;
+    let currentGoal;
 
     // specify URL's
     const variableURL = `${config.API_ENDPOINT}/process_variable/current`;
     const habitURL = `${config.API_ENDPOINT}/habit/current`;
+    const goalURL = `${config.API_ENDPOINT}/goal/current`;
     const entriesURL = `${config.API_ENDPOINT}/entries`;
 
     const headerObject = {
@@ -37,27 +39,43 @@ export default class Dashboard extends Component {
     Promise.all([
       fetch(variableURL, headerObject),
       fetch(habitURL, headerObject),
+      fetch(goalURL, headerObject),
       fetch(entriesURL, headerObject),
     ])
-      .then(([varRes, habitRes, entriesRes]) => {
+      .then(([varRes, habitRes, goalRes, entriesRes]) => {
         if (!varRes.ok) {
           return varRes.json().then((e) => Promise.reject(e));
         }
         if (!habitRes.ok) {
           return habitRes.json().then((e) => Promise.reject(e));
         }
+        if (!goalRes.ok) {
+          return goalRes.json().then((e) => Promise.reject(e));
+        }
         if (!entriesRes.ok) {
           return entriesRes.json().then((e) => Promise.reject(e));
         }
-        return Promise.all([varRes.json(), habitRes.json(), entriesRes.json()]);
+        return Promise.all([
+          varRes.json(),
+          habitRes.json(),
+          goalRes.json(),
+          entriesRes.json(),
+        ]);
       })
       // find the current variables and change the current property in the data to true
-      .then(([variableRes, habitRes, entriesRes]) => {
+      .then(([variableRes, habitRes, goalRes, entriesRes]) => {
         currentVariable = variableRes[0].process_variable;
         currentHabit = habitRes[0].habit;
+        currentGoal = goalRes[0].goal;
+
         // SHOULD THIS RETURN THE CURRENT VALUES AND SET STATE IN COMPONENT DID MOUNT?
-        console.log("here are the currents:", currentHabit, currentVariable);
-        console.log(entriesRes);
+        console.log(
+          "here are the currents:",
+          currentHabit,
+          currentVariable,
+          currentGoal
+        );
+        // console.log(entriesRes);
         let sortedData = this.sortData(entriesRes);
         // I THINK I SHOULD ONLY SET STATE ONCE AND USE ASYNC/AWAY OR A CALLBACK SO THAT THE CURRENT VALUES AND SORTED DATA ARE PUT INTO STATE AT THE SAME TIME.
 
@@ -65,7 +83,11 @@ export default class Dashboard extends Component {
         this.setState({
           dataLoading: false,
           data: sortedData,
-          currentMetrics: { habit: currentHabit, variable: currentVariable },
+          currentMetrics: {
+            habit: currentHabit,
+            variable: currentVariable,
+            goal: currentGoal,
+          },
         });
       })
       // catch and log errors
@@ -113,12 +135,45 @@ export default class Dashboard extends Component {
 
   render() {
     console.log(this.state);
+    console.log(this.state.dataLoading);
     // console.log(this.props.username);
     // TO DO
     // Get the current variable and habit values for the text
     // Get the average value for variables
     // Get the percent of habits
+    let summaryText = !this.state.dataLoading ? (
+      <p>
+        You have made{" "}
+        {`${
+          this.state.data.habit[this.state.currentMetrics.habit].dates.length
+        } `}
+        journal entries with your current habit and process variable. Your
+        average {this.state.currentMetrics.variable} is
+        {` ${Math.floor(
+          this.state.data.variable[
+            this.state.currentMetrics.variable
+          ].values.reduce((a, b) => Number(a) + Number(b)) /
+            this.state.data.variable[this.state.currentMetrics.variable].values
+              .length
+        )} `}{" "}
+        and you have completed your habit{" "}
+        {` ${this.state.data.habit[
+          this.state.currentMetrics.habit
+        ].values.reduce((a, b) => Number(a) + Number(b))} times.`}
+      </p>
+    ) : (
+      <p></p>
+    );
 
+    let currentJournal = !this.state.dataLoading ? (
+      <div className="stats">
+        <p>Goal: {this.state.currentMetrics.goal}</p>
+        <p>Process variable: {this.state.currentMetrics.variable}</p>
+        <p>Supporting Habit: {this.state.currentMetrics.habit}</p>
+      </div>
+    ) : (
+      <p></p>
+    );
     // If the data are loading, render the charts (!dataLoading)
     let chartComponents = !this.state.dataLoading ? (
       <div className="chart-container">
@@ -141,17 +196,8 @@ export default class Dashboard extends Component {
             {/* FIX THIS */}
             Welcome, {this.props.username}!
           </h2>
-          <p>
-            SUMMARY STATS ARE NOT DONE: You have made{" "}
-            {/* {this.state.data.habit[this.state.currentHabit].length}  */}
-            entries and your habit [X%] of the time. You weekly average
-            [variable name] is [average value]
-          </p>
-          <div className="stats">
-            <p>Goal: [Goal]</p>
-            <p>Process variable: {this.state.currentMetrics.variable}</p>
-            <p>Supporting Habit: {this.state.currentMetrics.habit}</p>
-          </div>
+          {summaryText}
+          {currentJournal}
         </div>
         {chartComponents}
       </div>

@@ -34,7 +34,7 @@ export default function JournalMetric(props) {
         text={goalButton}
         label={"goal"}
       />
-
+      {/* VARIABLE */}
       <h1 className="journal-metric">Process Variable</h1>
       <p className="description">
         What you measure regularly to monitor progress toward your goal.
@@ -56,7 +56,7 @@ export default function JournalMetric(props) {
         text={variableButton}
         label={"process_variable"}
       />
-
+      {/* HABIT */}
       <h1 className="journal-metric">Habit</h1>
       <p className="description">
         The thing you regularly do or do not do that supports your process.
