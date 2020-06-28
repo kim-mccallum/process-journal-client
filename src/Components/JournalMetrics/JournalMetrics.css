@@ -1,8 +1,5 @@
-/* .journal-metric {
-  margin: 0 auto;
-  padding: 5px;
+.user-value {
+  font-weight: bold;
+  font-size: 2em;
+  color: purple;
 }
-
-.description {
-  padding: 3px;
-} */

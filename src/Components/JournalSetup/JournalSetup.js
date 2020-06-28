@@ -106,7 +106,7 @@ export default class JournalSetup extends Component {
   render() {
     console.log(this.state);
     return (
-      <div className="form-container">
+      <div className="setup-container">
         <h2>Your Journal</h2>
         <p className="journal-setup-instructions">
           The goal of this app is to help you identify and track the process or
@@ -117,7 +117,7 @@ export default class JournalSetup extends Component {
           on track and develop self awareness.
         </p>
         {/* HOW DO I SELECT THIS SO THAT IT IS A FORM CONTAINER WITH A FEW MODIFICATIONS */}
-        <div className="setup-container">
+        <div className="setup-item-container">
           <div className="journal-setup-items">
             <JournalMetrics
               goal={this.state.goal}

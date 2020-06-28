@@ -1,20 +1,31 @@
-.journal-setup-instructions {
-  padding-top: 3px;
-  padding-bottom: 3px;
-}
 .setup-container {
-  background-color: lightgray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #ebeced;
   border: 1px solid black;
 }
 
-.setup-container {
+.setup-item-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  background-color: lightgray;
+  border: 1px solid black;
 }
 
 .journal-setup-items {
   margin: 5px;
-  /* width: 100%; */
+}
+
+.journal-metric {
+  display: inline;
+  padding-left: 5px;
+  margin: 0;
+}
+
+.description {
+  display: inline;
 }

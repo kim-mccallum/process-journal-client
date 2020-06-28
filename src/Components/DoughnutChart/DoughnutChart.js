@@ -25,15 +25,10 @@ export default class DoughnutChart extends Component {
   // Don't think I need state
   state = {
     activeButton: "",
-    // DON'T LEAVE THESE IN HERE! THESE SHOULD BE PASSED AS PROPS FROM DASHBOARD
-    // currentMetrics: { habit: "12 hour daily nap", variable: "frisbee score" },
   };
   componentDidMount() {
     let myDatasets = getChartData([0, 1]);
-    // WHY IS props.data.habit NOT DEFINED?
-    // THIS CONDITIONAL SHOULD PASS SO THAT I CAN GRAPH 'REAL' DATA
     if (this.props.data.habit) {
-      // ALSO HAVING TROUBLE WITH THIS NOT BEING DEFINED EITHER
       let valuesArr = this.props.data.habit[this.props.habit].values;
       myDatasets = getChartData(valuesArr);
     }
@@ -52,16 +47,14 @@ export default class DoughnutChart extends Component {
   }
   render() {
     console.log(this.props);
-    // CONSOLE LOGS TO EXPLORE HOW MY PROPS AND STATE ARE NOT DEFINED
     if (this.props.data.habit) {
       let valuesArr = this.props.data.habit[this.props.habit].values;
-      // console.log("it is only defined sometimes?", valuesArr);
       let testData = getChartData(valuesArr);
       console.log("here is what doughnut is graphing", testData);
     }
     return (
       <div className="doughnut-container">
-        <canvas id="dashboard-pie-chart"></canvas>
+        <canvas id="dashboard-pie-chart" responsive="true"></canvas>
       </div>
     );
   }

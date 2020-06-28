@@ -176,10 +176,8 @@ export default class JournalEntryForm extends Component {
           />
           {formQuestions}
         </form>
-        <button className="nav-button">
-          <NavLink to={`/dashboard`} className="Nav-button">
-            Go to Dashboard
-          </NavLink>
+        <button className="nav-button glow-button">
+          <NavLink to={`/dashboard`}>Go to Dashboard</NavLink>
         </button>
       </div>
     );

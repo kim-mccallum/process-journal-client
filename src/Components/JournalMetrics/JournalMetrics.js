@@ -18,7 +18,7 @@ export default function JournalMetric(props) {
 
       {/* GOAL - If the value exists, render it, otherwise, render an input with event handlers and dynamic attributes */}
       {props.goal ? (
-        <p>{props.goal}</p>
+        <p className="user-value">{props.goal}</p>
       ) : (
         <input
           type="text"
@@ -40,7 +40,7 @@ export default function JournalMetric(props) {
         What you measure regularly to monitor progress toward your goal.
       </p>
       {props.process_variable ? (
-        <p>{props.process_variable}</p>
+        <p className="user-value">{props.process_variable}</p>
       ) : (
         <input
           type="text"
@@ -62,7 +62,7 @@ export default function JournalMetric(props) {
         The thing you regularly do or do not do that supports your process.
       </p>
       {props.habit ? (
-        <p>{props.habit}</p>
+        <p className="user-value">{props.habit}</p>
       ) : (
         <input
           type="text"
