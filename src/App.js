@@ -80,9 +80,9 @@ class App extends Component {
         this.setState({ isAuth: true, username: user.username });
         console.log(user.username, "is logged in!");
         // after login redirect to to journal
-        // this.props.history.push("/journal-setup");
+        this.props.history.push("/journal-setup");
         // CHANGE THIS BACK TO JOURNAL-SETUP LATER
-        this.props.history.push("/dashboard");
+        // this.props.history.push("/dashboard");
       })
       .catch((err) => {
         // have a JSX <p> to render this error

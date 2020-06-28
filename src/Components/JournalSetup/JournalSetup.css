@@ -1,29 +1,20 @@
-.journal-setup-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* margin: 20px; */
-  width: 100%;
-  background-color: #ebeced;
-  border: 1px solid black;
-  position: absolute;
-  top: 50%;
-  /* top: 60%; */
-  left: 50%;
-  transform: translate3d(-50%, -50%, 0);
-}
-
-.journal-setup-form {
-  margin: 5px;
-  width: 100%;
-}
 .journal-setup-instructions {
   padding-top: 3px;
   padding-bottom: 3px;
 }
+.setup-container {
+  background-color: lightgray;
+  border: 1px solid black;
+}
 
-.add-habit-btn {
-  color: red;
-  /* put this inline but this isn't working */
-  display: inline-block;
+.setup-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.journal-setup-items {
+  margin: 5px;
+  /* width: 100%; */
 }

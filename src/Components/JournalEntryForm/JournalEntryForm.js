@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import config from "../../config";
 import DatePicker from "react-datepicker";
+import { NavLink } from "react-router-dom";
 import moment from "moment";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -163,17 +164,24 @@ export default class JournalEntryForm extends Component {
     );
 
     return (
-      <form className="journal-entry-form" onSubmit={this.submitHandler}>
-        <h2>Make a journal entry</h2>
-        <label htmlFor="date">Entry Date:</label>
-        <DatePicker
-          name="date"
-          className="date-selector"
-          selected={this.state.date}
-          onChange={this.dateHandler}
-        />
-        {formQuestions}
-      </form>
+      <div className="form-container">
+        <form onSubmit={this.submitHandler}>
+          <h2>Make a journal entry</h2>
+          <label htmlFor="date">Entry Date:</label>
+          <DatePicker
+            name="date"
+            className="date-selector"
+            selected={this.state.date}
+            onChange={this.dateHandler}
+          />
+          {formQuestions}
+        </form>
+        <button className="nav-button">
+          <NavLink to={`/dashboard`} className="Nav-button">
+            Go to Dashboard
+          </NavLink>
+        </button>
+      </div>
     );
   }
 }

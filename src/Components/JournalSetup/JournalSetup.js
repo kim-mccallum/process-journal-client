@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import config from "../../config";
 import JournalMetrics from "../JournalMetrics/JournalMetrics";
+import { NavLink } from "react-router-dom";
 import "./JournalSetup.css";
 
 export default class JournalSetup extends Component {
@@ -68,21 +69,14 @@ export default class JournalSetup extends Component {
   changeInputHandler = (event) => {
     console.log(event.target.name);
 
-    // if (!this.state.selectedLabel) {
-    //   this.setState({ selectedLabel: event.target.name });
-    // }
-    // this.setState({ selectedLabel: event.target.name });
-
     this.setState({
       selectedLabel: event.target.name,
       [`${event.target.name}_input`]: event.target.value,
     });
   };
-  // handle submit to make fetch - This function should get the value and pass it to fetch/update FIX THIS HERE!
-  // PROBLEM IS THAT THE SELECTEDLABEL IS AN EMPTY STRING AT FIRST
+  // handle submit to make fetch - This function should get the value and pass it to fetch/update
   handleSubmit = (event, value) => {
     // Set up the endpoint for the selected variable to change
-    // // THIS IS A PROBLEM BECAUSE AT FIRST SELECTED LABEL IS NOT DEFINED AND SO THE API ENDPOINT IS NOT CORRECT
     const URL = `${config.API_ENDPOINT}/${this.state.selectedLabel}`;
     // create the body object using dynamic key/value
     const body = {
@@ -112,7 +106,7 @@ export default class JournalSetup extends Component {
   render() {
     console.log(this.state);
     return (
-      <div className="journal-setup-container">
+      <div className="form-container">
         <h2>Your Journal</h2>
         <p className="journal-setup-instructions">
           The goal of this app is to help you identify and track the process or
@@ -122,15 +116,34 @@ export default class JournalSetup extends Component {
           regularly tracking your target variable and your habits, you can stay
           on track and develop self awareness.
         </p>
-        <JournalMetrics
-          goal={this.state.goal}
-          process_variable={this.state.process_variable}
-          habit={this.state.habit}
-          changeHandler={this.changeHandler}
-          handleSubmit={this.handleSubmit}
-          changeInputHandler={this.changeInputHandler}
-          selectedLabel={this.state.selectedLabel}
-        />
+        {/* HOW DO I SELECT THIS SO THAT IT IS A FORM CONTAINER WITH A FEW MODIFICATIONS */}
+        <div className="setup-container">
+          <div className="journal-setup-items">
+            <JournalMetrics
+              goal={this.state.goal}
+              process_variable={this.state.process_variable}
+              habit={this.state.habit}
+              changeHandler={this.changeHandler}
+              handleSubmit={this.handleSubmit}
+              changeInputHandler={this.changeInputHandler}
+              selectedLabel={this.state.selectedLabel}
+            />
+          </div>
+          <div className="button-container">
+            <ul>
+              <li className="nav-button glow-button">
+                <NavLink to={`/dashboard`} className="Nav-button">
+                  Go to my Dashboard
+                </NavLink>
+              </li>
+              <li className="nav-button glow-button">
+                <NavLink to={`/journal-entry`} className="Nav-button">
+                  Make an entry
+                </NavLink>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     );
   }

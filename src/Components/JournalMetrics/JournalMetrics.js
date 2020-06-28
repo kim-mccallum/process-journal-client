@@ -9,7 +9,7 @@ export default function JournalMetric(props) {
   let habitButton = props.habit ? "Change this" : "Submit";
   // We also need to pass a changeButtonHandler???
   return (
-    <div>
+    <>
       <h1 className="journal-metric">Goal</h1>
       <p className="description">
         The outcome you are working for. Make sure to set SMART goals (specific,
@@ -78,6 +78,6 @@ export default function JournalMetric(props) {
         text={habitButton}
         label={"habit"}
       />
-    </div>
+    </>
   );
 }
