@@ -131,14 +131,14 @@ export default class JournalSetup extends Component {
           </div>
           <div className="button-container">
             <ul>
-              <li className="nav-button glow-button">
+              {/* <li className="nav-button glow-button">
                 <NavLink to={`/dashboard`} className="Nav-button">
                   Go to my Dashboard
                 </NavLink>
-              </li>
+              </li> */}
               <li className="nav-button glow-button">
                 <NavLink to={`/journal-entry`} className="Nav-button">
-                  Make an entry
+                  Make a Journal Entry
                 </NavLink>
               </li>
             </ul>

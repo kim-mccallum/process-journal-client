@@ -126,7 +126,6 @@ class App extends Component {
             component={(routeProps) => (
               <Dashboard
                 routeProps={routeProps}
-                // THIS SEEMS TO BE UNDEFINED WHEN IT GETS PASSED - IS THIS AN ASYNC ISSUE?
                 username={this.state.username}
               />
             )}
@@ -137,7 +136,7 @@ class App extends Component {
     return (
       <div className="App">
         <Banner isAuth={this.state.isAuth} logout={this.logout} />
-        {routes}
+        <div className="form-wrapper">{routes}</div>
       </div>
     );
   }
