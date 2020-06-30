@@ -13,7 +13,6 @@ export default class Banner extends Component {
 
   sideNavHandler = (e) => {
     // toggle the sideNavState
-    console.log(this.state.sideNavVisible);
     this.setState({ sideNavVisible: !this.state.sideNavVisible });
   };
 

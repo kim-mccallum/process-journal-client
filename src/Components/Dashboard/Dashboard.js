@@ -3,6 +3,7 @@ import React, { Component } from "react";
 // import moment from "moment";
 import TrendChart from "../TrendChart/TrendChart";
 import DoughnutChart from "../DoughnutChart/DoughnutChart";
+import { NavLink } from "react-router-dom";
 import config from "../../config";
 import "./Dashboard.css";
 
@@ -76,12 +77,16 @@ export default class Dashboard extends Component {
           currentVariable,
           currentGoal
         );
-        console.log(entriesRes);
-        // ASYNC ISSUE
+        // console.log(entriesRes);
+
         let sortedData = this.sortData(entriesRes);
-        // I THINK I SHOULD ONLY SET STATE ONCE AND USE ASYNC/AWAit OR A CALLBACK SO THAT THE CURRENT VALUES AND SORTED DATA ARE PUT INTO STATE AT THE SAME TIME.
-        // I NEED TO WAIT FOR LINE 80 TO RESOLVE BEFORE I CALL checkForEntriesV - HELP
-        let match = this.checkForEntries(sortedData, currentHabit, currentGoal);
+        console.log(sortedData);
+        // Match should be true/false
+        let match = this.checkForEntries(
+          sortedData,
+          currentHabit,
+          currentVariable
+        );
         // THE FINAL SETSTATE
         this.setState({
           dataLoading: false,
@@ -137,9 +142,15 @@ export default class Dashboard extends Component {
     return outObject;
   };
   // WHEN TO CALL THIS FUNCTION - CAN'T CALL IT IN FETCH BECAUSE IT'S NOT IN STATE YET!
-  checkForEntries = (sortedData, currentHabit, currentGoal) => {
-    debugger;
-    let match = sortedData[currentHabit] && sortedData[currentGoal];
+  checkForEntries = (sortedData, currentHabit, currentVariable) => {
+    let match = false;
+    if (
+      sortedData.habit[currentHabit] &&
+      sortedData.variable[currentVariable]
+    ) {
+      match = true;
+    }
+    // I wanted this to return true or false not undefined
     console.log(`We have current entries? ${match}`);
     return match;
   };
@@ -148,36 +159,51 @@ export default class Dashboard extends Component {
     console.log(this.state);
     console.log(this.state.dataLoading);
     // PROBLEM HERE - ONLY SUMMARIZE THEIR DATA IF THEY HAVE ENTRIES
-    // MAYBE CALL A FUNCTION TO SEE IF THE CURRENT HABIT/VARIABLE ARE IN THE SORTED DATA
-    // IF NOT, PUT AN ERROR IN STATE - NO DATA FOR CURRENT METRICS
-    //
+    let noEntriesMessage = !this.state.entriesAvailable ? (
+      <div className="error-message-container">
+        <h2>
+          You have not made any journal entries for your current variable (
+          {this.state.currentMetrics.variable}) or habit (
+          {this.state.currentMetrics.habit})
+        </h2>
+        <button className="nav-button glow-button">
+          <NavLink to={`/journal-entry`}>Go to Journal Entries</NavLink>
+        </button>
+      </div>
+    ) : (
+      ""
+    );
+    // (
+    //   <h1>Data loading!</h1>
+    // )
 
     // Get the current variable and habit values for the text
     // Get the average value for variables
     // Get the percent of habits
-    let summaryText = !this.state.dataLoading ? (
-      <p>
-        You have made{" "}
-        {`${
-          this.state.data.habit[this.state.currentMetrics.habit].dates.length
-        } `}
-        journal entries with your current habit and process variable. Your
-        average {this.state.currentMetrics.variable} is
-        {` ${Math.floor(
-          this.state.data.variable[
-            this.state.currentMetrics.variable
-          ].values.reduce((a, b) => Number(a) + Number(b)) /
-            this.state.data.variable[this.state.currentMetrics.variable].values
-              .length
-        )} `}{" "}
-        and you have completed your habit{" "}
-        {` ${this.state.data.habit[
-          this.state.currentMetrics.habit
-        ].values.reduce((a, b) => Number(a) + Number(b))} times.`}
-      </p>
-    ) : (
-      <p></p>
-    );
+    let summaryText =
+      !this.state.dataLoading && this.state.entriesAvailable ? (
+        <p>
+          You have made{" "}
+          {`${
+            this.state.data.habit[this.state.currentMetrics.habit].dates.length
+          } `}
+          journal entries with your current habit and process variable. Your
+          average {this.state.currentMetrics.variable} is
+          {` ${Math.floor(
+            this.state.data.variable[
+              this.state.currentMetrics.variable
+            ].values.reduce((a, b) => Number(a) + Number(b)) /
+              this.state.data.variable[this.state.currentMetrics.variable]
+                .values.length
+          )} `}{" "}
+          and you have completed your habit{" "}
+          {` ${this.state.data.habit[
+            this.state.currentMetrics.habit
+          ].values.reduce((a, b) => Number(a) + Number(b))} times.`}
+        </p>
+      ) : (
+        <p></p>
+      );
 
     let currentJournal = !this.state.dataLoading ? (
       <div className="stats">
@@ -201,7 +227,7 @@ export default class Dashboard extends Component {
         />
       </div>
     ) : (
-      <h1>Data loading!</h1>
+      ""
     );
     return (
       <div className="dashboard-container">
@@ -210,6 +236,8 @@ export default class Dashboard extends Component {
             {/* FIX THIS */}
             Welcome, {this.props.username}!
           </h2>
+          {/* if no entries or data is loading */}
+          {noEntriesMessage}
           {summaryText}
           {currentJournal}
         </div>
