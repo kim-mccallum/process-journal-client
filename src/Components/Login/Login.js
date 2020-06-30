@@ -19,6 +19,12 @@ export default class Login extends Component {
     });
   };
   render() {
+    let errorMessage = this.props.error ? (
+      <p className="validationError">Invalid username or password</p>
+    ) : (
+      ""
+    );
+    // console.log(errorMessage);
     return (
       <div className="form-container">
         <form onSubmit={this.submitHandler}>
@@ -47,6 +53,7 @@ export default class Login extends Component {
           ></input>
           <button type="submit">Sign in</button>
         </form>
+        {errorMessage}
         <NavLink to={`/sign-up`} className="link">
           Create an account
         </NavLink>

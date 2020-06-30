@@ -100,10 +100,15 @@ class App extends Component {
     routes = (
       <Switch>
         <Route exact path="/" component={Landing} />
-        <Route
+        {/* <Route
           exact
           path="/login"
           render={() => <Login login={this.login} />}
+        /> */}
+        <Route
+          exact
+          path="/login"
+          render={() => <Login error={this.state.error} login={this.login} />}
         />
         <Route
           exact

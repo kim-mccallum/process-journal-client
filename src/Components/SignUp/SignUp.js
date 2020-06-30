@@ -7,12 +7,19 @@ export default class SignUp extends Component {
   state = {
     // form validation stuff in here
     // make sure that passwords match, etc.
+    password: "",
+    confirmPW: "",
   };
   changeHandler = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
   submitHandler = (e) => {
     e.preventDefault();
+    // Before submitting, should I make sure that they match
+    if (!(this.state.password === this.state.confirmPW)) {
+      alert(`The passwords do not match. Try again.`);
+      return;
+    }
     // callback prop to make the fetch - This will send the state to the backend to create a token and pass it work
     const { username, password, email } = this.state;
     this.props.signup({
@@ -21,8 +28,11 @@ export default class SignUp extends Component {
       email,
     });
   };
-
   render() {
+    console.log(this.state);
+    // this should be based on state - COMPARE PASSWORDS?
+    let passwordMatch = this.state.password === this.state.confirmPW;
+
     return (
       <div className="form-container">
         {/* text instructions and a go back button */}
@@ -52,14 +62,18 @@ export default class SignUp extends Component {
             placeholder="password"
             onChange={this.changeHandler}
           ></input>
-          <label htmlFor="confirm-pw"></label>
+          <label htmlFor="confirmPW"></label>
           <input
             type="password"
-            name="confirm-pw"
+            name="confirmPW"
             required
             placeholder="re-enter password"
             onChange={this.changeHandler}
           ></input>
+          {/* render message here */}
+          {!passwordMatch && (
+            <p className="validationError">Passwords don't match</p>
+          )}
           <button type="submit">Sign up</button>
         </form>
         <NavLink to={`/login`} className="link">
