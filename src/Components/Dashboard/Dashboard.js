@@ -161,10 +161,10 @@ export default class Dashboard extends Component {
     // PROBLEM HERE - ONLY SUMMARIZE THEIR DATA IF THEY HAVE ENTRIES
     let noEntriesMessage = !this.state.entriesAvailable ? (
       <div className="error-message-container">
-        <h2>
-          You have not made any journal entries for your current variable (
-          {this.state.currentMetrics.variable}) or habit (
-          {this.state.currentMetrics.habit})
+        <h2 className="data-error">
+          There is nothing to graph as you have not made any journal entries for
+          your current journal metrics! Use the button below to visit your
+          journal and make some entries.
         </h2>
         <button className="nav-button glow-button">
           <NavLink to={`/journal-entry`}>Go to Journal Entries</NavLink>

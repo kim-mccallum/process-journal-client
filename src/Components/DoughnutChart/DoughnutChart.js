@@ -7,11 +7,11 @@ const getChartData = (habitValArray) => {
     datasets: [
       {
         data: [],
-        backgroundColor: ["rgba(54, 162, 235, 0.2)", "rgba(255, 99, 132, 0.2)"],
-        borderColor: ["rgba(54, 162, 235, 1)", "rgba(255, 99, 132, 1)"],
+        backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(54, 162, 235, 0.2)"],
+        borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)"],
       },
     ],
-    labels: ["Done", "Not done"],
+    labels: ["Not done", "Done"],
   };
   // use reduce to sum over the array
   let totalDone = habitValArray.reduce((a, b) => Number(a) + Number(b));
