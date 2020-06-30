@@ -14,6 +14,7 @@ export default class Dashboard extends Component {
     data: {},
     currentMetrics: "",
     error: "",
+    entriesAvailable: false,
   };
   // Promise.all and fetch everything at the same time and then put it all one place for one setState({})
   componentDidMount() {
@@ -75,10 +76,12 @@ export default class Dashboard extends Component {
           currentVariable,
           currentGoal
         );
-        // console.log(entriesRes);
+        console.log(entriesRes);
+        // ASYNC ISSUE
         let sortedData = this.sortData(entriesRes);
-        // I THINK I SHOULD ONLY SET STATE ONCE AND USE ASYNC/AWAY OR A CALLBACK SO THAT THE CURRENT VALUES AND SORTED DATA ARE PUT INTO STATE AT THE SAME TIME.
-
+        // I THINK I SHOULD ONLY SET STATE ONCE AND USE ASYNC/AWAit OR A CALLBACK SO THAT THE CURRENT VALUES AND SORTED DATA ARE PUT INTO STATE AT THE SAME TIME.
+        // I NEED TO WAIT FOR LINE 80 TO RESOLVE BEFORE I CALL checkForEntriesV - HELP
+        let match = this.checkForEntries(sortedData, currentHabit, currentGoal);
         // THE FINAL SETSTATE
         this.setState({
           dataLoading: false,
@@ -88,6 +91,7 @@ export default class Dashboard extends Component {
             variable: currentVariable,
             goal: currentGoal,
           },
+          entriesAvailable: match,
         });
       })
       // catch and log errors
@@ -132,12 +136,22 @@ export default class Dashboard extends Component {
     });
     return outObject;
   };
+  // WHEN TO CALL THIS FUNCTION - CAN'T CALL IT IN FETCH BECAUSE IT'S NOT IN STATE YET!
+  checkForEntries = (sortedData, currentHabit, currentGoal) => {
+    debugger;
+    let match = sortedData[currentHabit] && sortedData[currentGoal];
+    console.log(`We have current entries? ${match}`);
+    return match;
+  };
 
   render() {
     console.log(this.state);
     console.log(this.state.dataLoading);
-    // console.log(this.props.username);
-    // TO DO
+    // PROBLEM HERE - ONLY SUMMARIZE THEIR DATA IF THEY HAVE ENTRIES
+    // MAYBE CALL A FUNCTION TO SEE IF THE CURRENT HABIT/VARIABLE ARE IN THE SORTED DATA
+    // IF NOT, PUT AN ERROR IN STATE - NO DATA FOR CURRENT METRICS
+    //
+
     // Get the current variable and habit values for the text
     // Get the average value for variables
     // Get the percent of habits
