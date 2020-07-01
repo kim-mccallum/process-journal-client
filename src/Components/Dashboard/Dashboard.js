@@ -158,13 +158,14 @@ export default class Dashboard extends Component {
   render() {
     console.log(this.state);
     console.log(this.state.dataLoading);
-    // PROBLEM HERE - ONLY SUMMARIZE THEIR DATA IF THEY HAVE ENTRIES
+
+    // Only summarize their data if they have entries
     let noEntriesMessage = !this.state.entriesAvailable ? (
       <div className="error-message-container">
         <h2 className="data-error">
-          There is nothing to graph as you have not made any journal entries for
-          your current journal metrics! Use the button below to visit your
-          journal and make some entries.
+          Nothing to graph! You have not made any journal entries for your
+          current journal metrics! Use the button below to visit your journal
+          and make some entries.
         </h2>
         <button className="nav-button glow-button">
           <NavLink to={`/journal-entry`}>Go to Journal Entries</NavLink>
@@ -173,18 +174,16 @@ export default class Dashboard extends Component {
     ) : (
       ""
     );
-    // (
-    //   <h1>Data loading!</h1>
-    // )
+    // MAYBE CREATE AN ARRAY OF HABITS AND VARIABLES FROM THE DATA IN STATE
+    // MAP OVER THESE TO CREATE A SELECTION MENU TO CHANGE THE GRAPHING DATA
+    // CREATE AN ONCHANGE HANDLER TO UPDATE THE CURRENTMETRICS IN STATE
 
-    // Get the current variable and habit values for the text
-    // Get the average value for variables
-    // Get the percent of habits
+    // Get the percent of habits and the average value for variables
     let summaryText =
       !this.state.dataLoading && this.state.entriesAvailable ? (
         <p>
-          You have made{" "}
-          {`${
+          You have made
+          {` ${
             this.state.data.habit[this.state.currentMetrics.habit].dates.length
           } `}
           journal entries with your current habit and process variable. Your
@@ -214,7 +213,7 @@ export default class Dashboard extends Component {
     ) : (
       <p></p>
     );
-    // If the data are loading, render the charts (!dataLoading)
+    // If the data are loading, don't try to render the charts
     let chartComponents = !this.state.dataLoading ? (
       <div className="chart-container">
         <DoughnutChart

@@ -9,13 +9,14 @@ import "react-datepicker/dist/react-datepicker.css";
 export default class JournalEntryForm extends Component {
   debugger;
   state = {
-    // convert this to universal time!
+    // date conversion happens in the submit
     date: new Date(),
     goal: "",
     process_variable: "",
     habit: "",
     variable_value: "",
     habit_value: "1",
+    error: "",
   };
   // Make a fetch to all 3 endpoints to get: goal, variable, habit to put in state
   componentDidMount() {
@@ -49,7 +50,6 @@ export default class JournalEntryForm extends Component {
         }
         return Promise.all([goalRes.json(), varRes.json(), habitRes.json()]);
       })
-      // put the values in state - CAN'T SEEM TO GET THIS DONE FOR AN OBJECT
       .then(([goalRes, variableRes, habitRes]) => {
         this.setState({
           goal: goalRes[0].goal,
@@ -59,8 +59,9 @@ export default class JournalEntryForm extends Component {
       })
       // catch and log errors
       .catch((err) => {
-        // have some JSX to render error info
-        console.log(`Something went wrong. Here is the error: ${err}`);
+        this.setState({
+          error: `Something went wrong. Here is the error: ${err}`,
+        });
       });
   }
   // This doesn't seem to be putting the new values from the form into state
@@ -81,8 +82,19 @@ export default class JournalEntryForm extends Component {
     // get your values from state
     let { process_variable, variable_value, habit, habit_value } = this.state;
 
+    //if variable_value is not a number
+    if (isNaN(variable_value)) {
+      // set an error message in state
+      this.setState({ error: "Variable value must be a number." });
+      this.setState({
+        error: `Your input for ${this.state.process_variable} must be a number.`,
+      });
+      // return from the function
+      return;
+    }
+
     // make sure to change date UTC
-    let date = moment.utc(this.state.date); //.format("DD MM YYYY hh:mm:ss");
+    let date = moment.utc(this.state.date);
     console.log(date);
 
     // set up your bodies
@@ -111,12 +123,17 @@ export default class JournalEntryForm extends Component {
       body: JSON.stringify(processVariableBody),
     })
       .then((res) => {
-        if (!res.status === 201) {
-          throw new Error({ message: "post failed for some reason" });
+        if (!res.ok) {
+          console.log(res.status); //returns 404 when given a bad endpoint
+          throw new Error(`Request failed with status: ${res.status}`);
         }
       })
       // have an error in state and display something in a <p> for the user
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        this.setState({
+          error: `Something went wrong. Here is the error: ${err}`,
+        });
+      });
 
     // Post the habit
     fetch(`${config.API_ENDPOINT}/entries`, {
@@ -129,14 +146,25 @@ export default class JournalEntryForm extends Component {
     })
       .then((res) => {
         if (!res.status === 201) {
-          throw new Error({ message: "post failed for some reason" });
+          throw new Error(`Request failed with status: ${res.status}`);
         }
+        //redirect to dashboard
+        this.props.history.push("/dashboard");
       })
       // have an error in state and display something in a <p> for the user
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        this.setState({
+          error: `Something went wrong. Here is the error: ${err}`,
+        });
+      });
   };
   render() {
-    console.log(this.state);
+    console.log(this.props);
+    let errorMessage = this.state.error ? (
+      <p className="validationError">{this.state.error}</p>
+    ) : (
+      ""
+    );
     // render the questions
     let formQuestions;
     if (!this.state.target_name) {
@@ -167,6 +195,7 @@ export default class JournalEntryForm extends Component {
       <div className="form-container">
         <form onSubmit={this.submitHandler}>
           <h2>Make a journal entry</h2>
+          {errorMessage}
           <label htmlFor="date">Entry Date:</label>
           <DatePicker
             name="date"
@@ -176,9 +205,6 @@ export default class JournalEntryForm extends Component {
           />
           {formQuestions}
         </form>
-        <button className="nav-button glow-button">
-          <NavLink to={`/dashboard`}>Go to Dashboard</NavLink>
-        </button>
       </div>
     );
   }

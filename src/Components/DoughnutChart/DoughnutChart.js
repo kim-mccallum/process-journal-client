@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Chart from "chart.js";
 import moment from "moment";
+import "./DoughnutChart.css";
 
 const getChartData = (habitValArray) => {
   let chartData = {
