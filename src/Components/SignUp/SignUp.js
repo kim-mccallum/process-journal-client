@@ -33,6 +33,12 @@ export default class SignUp extends Component {
     // this should be based on state - COMPARE PASSWORDS?
     let passwordMatch = this.state.password === this.state.confirmPW;
 
+    let errorMessage = this.props.error ? (
+      <p className="validationError">{`${this.props.error}`}</p>
+    ) : (
+      ""
+    );
+
     return (
       <div className="form-container">
         {/* text instructions and a go back button */}
@@ -74,6 +80,7 @@ export default class SignUp extends Component {
           {!passwordMatch && (
             <p className="validationError">Passwords don't match</p>
           )}
+          {errorMessage}
           <button type="submit">Sign up</button>
         </form>
         <NavLink to={`/login`} className="link">

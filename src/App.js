@@ -43,8 +43,16 @@ class App extends Component {
       body: JSON.stringify(formData),
     })
       .then((response) => {
-        if (response.status === 400) {
-          throw new Error(response.error);
+        // if (response.status === 400) {
+        //   console.log("here is ERROR:", response.error);
+        //   throw new Error(response.error);
+        // }
+        if (!response.ok) {
+          return response.json().then((e) => {
+            console.log(e.error);
+            throw new Error(e.error);
+          });
+          // return response.json().then((e) => Promise.reject(e));
         }
         return response.json();
       })
@@ -55,7 +63,9 @@ class App extends Component {
       })
       .catch((err) => {
         // have a JSX <p> to render this error
-        this.setState({ error: err });
+        this.setState({
+          error: err,
+        });
       });
   };
 
@@ -114,7 +124,11 @@ class App extends Component {
           exact
           path="/sign-up"
           render={(routeProps) => (
-            <SignUp signup={this.signup} {...routeProps} />
+            <SignUp
+              signup={this.signup}
+              error={this.state.error}
+              {...routeProps}
+            />
           )}
         />
       </Switch>
