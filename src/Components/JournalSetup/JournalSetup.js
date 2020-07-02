@@ -104,7 +104,6 @@ export default class JournalSetup extends Component {
     });
   };
   render() {
-    console.log(this.state);
     return (
       <div className="setup-container">
         <h2>Your Journal</h2>

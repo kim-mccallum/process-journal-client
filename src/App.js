@@ -34,7 +34,6 @@ class App extends Component {
   // Sign up function - POST requests to the signup endpoing
   signup = (formData) => {
     // Get the data for the fetch from the signup form
-    // console.log(JSON.stringify(formData));
     fetch(`${config.API_ENDPOINT}/auth/signup`, {
       method: "POST",
       headers: {
@@ -43,16 +42,11 @@ class App extends Component {
       body: JSON.stringify(formData),
     })
       .then((response) => {
-        // if (response.status === 400) {
-        //   console.log("here is ERROR:", response.error);
-        //   throw new Error(response.error);
-        // }
         if (!response.ok) {
           return response.json().then((e) => {
             console.log(e.error);
             throw new Error(e.error);
           });
-          // return response.json().then((e) => Promise.reject(e));
         }
         return response.json();
       })
@@ -91,8 +85,6 @@ class App extends Component {
         console.log(user.username, "is logged in!");
         // after login redirect to to journal
         this.props.history.push("/journal-setup");
-        // CHANGE THIS BACK TO JOURNAL-SETUP LATER
-        // this.props.history.push("/dashboard");
       })
       .catch((err) => {
         // have a JSX <p> to render this error
@@ -105,16 +97,10 @@ class App extends Component {
   };
 
   render() {
-    // console.log(this.state.isAuth);
     let routes;
     routes = (
       <Switch>
         <Route exact path="/" component={Landing} />
-        {/* <Route
-          exact
-          path="/login"
-          render={() => <Login login={this.login} />}
-        /> */}
         <Route
           exact
           path="/login"

@@ -159,7 +159,6 @@ export default class JournalEntryForm extends Component {
       });
   };
   render() {
-    console.log(this.props);
     let errorMessage = this.state.error ? (
       <p className="validationError">{this.state.error}</p>
     ) : (
