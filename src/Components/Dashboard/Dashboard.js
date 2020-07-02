@@ -10,12 +10,13 @@ import "./Dashboard.css";
 export default class Dashboard extends Component {
   state = {
     activeButton: "",
-    // USE THIS TO CONDITIONALLY RENDER THE COMPONENTS THAT NEED DATA?
     dataLoading: true,
     data: {},
     currentMetrics: "",
     error: "",
     entriesAvailable: false,
+    habitSelect: "currentHabit", //or all habits
+    variableSelect: "",
   };
   // Promise.all and fetch everything at the same time and then put it all one place for one setState({})
   componentDidMount() {
@@ -97,6 +98,7 @@ export default class Dashboard extends Component {
             goal: currentGoal,
           },
           entriesAvailable: match,
+          variableSelect: currentVariable,
         });
       })
       // catch and log errors
@@ -155,9 +157,20 @@ export default class Dashboard extends Component {
     return match;
   };
 
+  changeHandler = (e) => {
+    if (e.target.name === "variableSelect") {
+      this.setState({
+        [e.target.name]: e.target.value,
+        currentMetrics: {
+          ...this.state.currentMetrics,
+          variable: e.target.value,
+        },
+      });
+    }
+  };
+
   render() {
     console.log(this.state);
-    console.log(this.state.dataLoading);
 
     // Only summarize their data if they have entries
     let noEntriesMessage = !this.state.entriesAvailable ? (
@@ -228,18 +241,40 @@ export default class Dashboard extends Component {
     ) : (
       ""
     );
+
+    let variableSelectArr = this.state.data.variable
+      ? Object.keys(this.state.data.variable)
+      : [];
+
     return (
       <div className="dashboard-container">
         <div className="summary-container">
-          <h2 className="greeting">
-            {/* FIX THIS */}
-            Welcome, {this.props.username}!
-          </h2>
+          <h2 className="greeting">Welcome, {this.props.username}!</h2>
           {/* if no entries or data is loading */}
           {noEntriesMessage}
           {summaryText}
           {currentJournal}
         </div>
+        <select
+          name="habitSelect"
+          id="habitSelect"
+          onChange={this.changeHandler}
+        >
+          <option value="currentHabit">Current Habit</option>
+          <option value="allHabits">All Habits</option>
+        </select>
+
+        <select
+          name="variableSelect"
+          id="variableSelect"
+          onChange={this.changeHandler}
+          value={this.state.variableSelect}
+        >
+          {/* options need to be an array of vars */}
+          {variableSelectArr.map((item) => (
+            <option value={item}>{item}</option>
+          ))}
+        </select>
         {chartComponents}
       </div>
     );
