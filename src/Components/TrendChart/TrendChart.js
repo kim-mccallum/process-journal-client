@@ -6,19 +6,39 @@ import "./TrendChart.css";
 export default class Dashboard extends Component {
   state = {
     activeButton: "",
-    currentMetrics: this.props.currentMetrics,
+    // currentMetrics: this.props.currentMetrics,
   };
   componentDidMount() {
+    // call the build graph function
+    this.buildGraph();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log(this.props, prevProps);
+    // if (
+    //   this.prevProps.currentMetrics.variable !==
+    //   this.props.currentMetrics.variable
+    // ) {
+    //   console.log("new data!");
+
+    // }
+    //rebuild the graph with new data
+    this.buildGraph();
+  }
+
+  buildGraph = () => {
+    // console.log("We made it into buildGraph");
+    // console.log(this.props);
     // transform data
-    const currentMetrics = this.state.currentMetrics;
-    console.log(currentMetrics);
+    const currentMetrics = this.props.currentMetrics;
+    // console.log(currentMetrics);
     const trendData = this.props.data;
     // build a graph object data
     let graphData = {
       labels: [],
       datasets: [
         {
-          label: this.state.currentMetrics.variable,
+          label: this.props.currentMetrics.variable,
           data: [],
           type: "line",
           yAxisID: "A",
@@ -27,14 +47,14 @@ export default class Dashboard extends Component {
       ],
     };
     //if data exist, format them in the object
-    if (trendData.variable[this.state.currentMetrics.variable]) {
+    if (trendData.variable[this.props.currentMetrics.variable]) {
       console.log("We have entries to graph!");
       graphData.labels = trendData.variable[
-        this.state.currentMetrics.variable
+        this.props.currentMetrics.variable
       ].dates.map((dt) => moment(dt).format("L"));
 
       graphData.datasets[0].data =
-        trendData.variable[this.state.currentMetrics.variable].values;
+        trendData.variable[this.props.currentMetrics.variable].values;
     }
     // DEAL WITH THE FACT THAT THE CHARTS DON'T RERENDER ON CHANGE
     //  grab the canvas and getContext
@@ -65,18 +85,10 @@ export default class Dashboard extends Component {
         },
       },
     });
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    console.log(props.currentMetrics);
-    // read up on this lifecycle method:
-    return { currentMetrics: props.currentMetrics };
-  }
-
-  buildGraph = () => {};
+  };
 
   render() {
-    console.log(this.state);
+    console.log(this.props);
     return (
       <div className="trendchart-container">
         <canvas id="dashboard-chart"></canvas>

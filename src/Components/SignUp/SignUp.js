@@ -1,12 +1,10 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
-// import our validation function from helper-functions.js - DON'T REALLY NEED THIS, JUST PUT THE LOGIC
 
 // a controlled form so use state
 export default class SignUp extends Component {
   state = {
-    // form validation stuff in here
-    // make sure that passwords match, etc.
+    // form validation stuff
     password: "",
     confirmPW: "",
   };
@@ -29,8 +27,7 @@ export default class SignUp extends Component {
     });
   };
   render() {
-    console.log(this.state);
-    // this should be based on state - COMPARE PASSWORDS?
+    // this should be based on state
     let passwordMatch = this.state.password === this.state.confirmPW;
 
     return (

@@ -3,6 +3,7 @@ import React, { Component } from "react";
 // import moment from "moment";
 import TrendChart from "../TrendChart/TrendChart";
 import DoughnutChart from "../DoughnutChart/DoughnutChart";
+import RadarChart from "../RadarChart/RadarChart";
 import { NavLink } from "react-router-dom";
 import config from "../../config";
 import "./Dashboard.css";
@@ -167,10 +168,15 @@ export default class Dashboard extends Component {
         },
       });
     }
+    if (e.target.name === "habitSelect") {
+      this.setState({
+        habitSelect: e.target.value,
+      });
+    }
   };
 
   render() {
-    console.log(this.state);
+    console.log(this.state.habitSelect);
 
     // Only summarize their data if they have entries
     let noEntriesMessage = !this.state.entriesAvailable ? (
@@ -219,6 +225,9 @@ export default class Dashboard extends Component {
 
     let currentJournal = !this.state.dataLoading ? (
       <div className="stats">
+        <h3 className="stats-label">
+          Currently, you are set up to track these:
+        </h3>
         <p>Goal: {this.state.currentMetrics.goal}</p>
         <p>Process variable: {this.state.currentMetrics.variable}</p>
         <p>Supporting Habit: {this.state.currentMetrics.habit}</p>
@@ -229,10 +238,15 @@ export default class Dashboard extends Component {
     // If the data are loading, don't try to render the charts
     let chartComponents = !this.state.dataLoading ? (
       <div className="chart-container">
-        <DoughnutChart
-          data={this.state.data}
-          habit={this.state.currentMetrics.habit}
-        />
+        {this.state.habitSelect === "currentHabit" ? (
+          <DoughnutChart
+            data={this.state.data}
+            habit={this.state.currentMetrics.habit}
+          />
+        ) : (
+          <RadarChart habitData={this.state.data.habit} />
+        )}
+
         <TrendChart
           data={this.state.data}
           currentMetrics={this.state.currentMetrics}
@@ -245,7 +259,8 @@ export default class Dashboard extends Component {
     let variableSelectArr = this.state.data.variable
       ? Object.keys(this.state.data.variable)
       : [];
-
+    // console.log(this.state.data);
+    // console.log(this.state.data.habit);
     return (
       <div className="dashboard-container">
         <div className="summary-container">
@@ -255,26 +270,43 @@ export default class Dashboard extends Component {
           {summaryText}
           {currentJournal}
         </div>
-        <select
-          name="habitSelect"
-          id="habitSelect"
-          onChange={this.changeHandler}
-        >
-          <option value="currentHabit">Current Habit</option>
-          <option value="allHabits">All Habits</option>
-        </select>
+        <div className="graph-select-container">
+          <fieldset>
+            <label htmlFor="habitSelect">Change habit graph</label>
+            <select
+              name="habitSelect"
+              id="habitSelect"
+              onChange={this.changeHandler}
+            >
+              <option value="currentHabit">Current Habit</option>
+              {this.state.data.habit &&
+              Object.keys(this.state.data.habit).length > 1 ? (
+                <option value="allHabits">All Habits</option>
+              ) : null}
+            </select>
+          </fieldset>
 
-        <select
-          name="variableSelect"
-          id="variableSelect"
-          onChange={this.changeHandler}
-          value={this.state.variableSelect}
-        >
-          {/* options need to be an array of vars */}
-          {variableSelectArr.map((item) => (
-            <option value={item}>{item}</option>
-          ))}
-        </select>
+          <fieldset>
+            {" "}
+            <label htmlFor="variableSelect">
+              Change process variable graph
+            </label>
+            <select
+              name="variableSelect"
+              id="variableSelect"
+              onChange={this.changeHandler}
+              value={this.state.variableSelect}
+            >
+              {/* options need to be an array of vars */}
+              {variableSelectArr.map((item) => (
+                <option value={item} key={item}>
+                  {item}
+                </option>
+              ))}
+            </select>
+          </fieldset>
+        </div>
+
         {chartComponents}
       </div>
     );

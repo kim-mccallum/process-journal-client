@@ -47,7 +47,7 @@ export default class DoughnutChart extends Component {
   }
   render() {
     return (
-      <div className="doughnut-container">
+      <div className="habit-chart-container">
         <canvas id="dashboard-pie-chart" responsive="true"></canvas>
       </div>
     );
