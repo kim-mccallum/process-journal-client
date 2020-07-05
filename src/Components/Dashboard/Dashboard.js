@@ -3,6 +3,7 @@ import React, { Component } from "react";
 // import moment from "moment";
 import TrendChart from "../TrendChart/TrendChart";
 import DoughnutChart from "../DoughnutChart/DoughnutChart";
+import RadarChart from "../RadarChart/RadarChart";
 import { NavLink } from "react-router-dom";
 import config from "../../config";
 import "./Dashboard.css";
@@ -10,12 +11,13 @@ import "./Dashboard.css";
 export default class Dashboard extends Component {
   state = {
     activeButton: "",
-    // USE THIS TO CONDITIONALLY RENDER THE COMPONENTS THAT NEED DATA?
     dataLoading: true,
     data: {},
     currentMetrics: "",
     error: "",
     entriesAvailable: false,
+    habitSelect: "currentHabit", //or all habits
+    variableSelect: "",
   };
   // Promise.all and fetch everything at the same time and then put it all one place for one setState({})
   componentDidMount() {
@@ -97,6 +99,7 @@ export default class Dashboard extends Component {
             goal: currentGoal,
           },
           entriesAvailable: match,
+          variableSelect: currentVariable,
         });
       })
       // catch and log errors
@@ -155,9 +158,25 @@ export default class Dashboard extends Component {
     return match;
   };
 
+  changeHandler = (e) => {
+    if (e.target.name === "variableSelect") {
+      this.setState({
+        [e.target.name]: e.target.value,
+        currentMetrics: {
+          ...this.state.currentMetrics,
+          variable: e.target.value,
+        },
+      });
+    }
+    if (e.target.name === "habitSelect") {
+      this.setState({
+        habitSelect: e.target.value,
+      });
+    }
+  };
+
   render() {
-    console.log(this.state);
-    console.log(this.state.dataLoading);
+    console.log(this.state.habitSelect);
 
     // Only summarize their data if they have entries
     let noEntriesMessage = !this.state.entriesAvailable ? (
@@ -206,6 +225,9 @@ export default class Dashboard extends Component {
 
     let currentJournal = !this.state.dataLoading ? (
       <div className="stats">
+        <h3 className="stats-label">
+          Currently, you are set up to track these:
+        </h3>
         <p>Goal: {this.state.currentMetrics.goal}</p>
         <p>Process variable: {this.state.currentMetrics.variable}</p>
         <p>Supporting Habit: {this.state.currentMetrics.habit}</p>
@@ -216,10 +238,15 @@ export default class Dashboard extends Component {
     // If the data are loading, don't try to render the charts
     let chartComponents = !this.state.dataLoading ? (
       <div className="chart-container">
-        <DoughnutChart
-          data={this.state.data}
-          habit={this.state.currentMetrics.habit}
-        />
+        {this.state.habitSelect === "currentHabit" ? (
+          <DoughnutChart
+            data={this.state.data}
+            habit={this.state.currentMetrics.habit}
+          />
+        ) : (
+          <RadarChart habitData={this.state.data.habit} />
+        )}
+
         <TrendChart
           data={this.state.data}
           currentMetrics={this.state.currentMetrics}
@@ -228,18 +255,58 @@ export default class Dashboard extends Component {
     ) : (
       ""
     );
+
+    let variableSelectArr = this.state.data.variable
+      ? Object.keys(this.state.data.variable)
+      : [];
+    // console.log(this.state.data);
+    // console.log(this.state.data.habit);
     return (
       <div className="dashboard-container">
         <div className="summary-container">
-          <h2 className="greeting">
-            {/* FIX THIS */}
-            Welcome, {this.props.username}!
-          </h2>
+          <h2 className="greeting">Welcome, {this.props.username}!</h2>
           {/* if no entries or data is loading */}
           {noEntriesMessage}
           {summaryText}
           {currentJournal}
         </div>
+        <div className="graph-select-container">
+          <fieldset>
+            <label htmlFor="habitSelect">Change habit graph</label>
+            <select
+              name="habitSelect"
+              id="habitSelect"
+              onChange={this.changeHandler}
+            >
+              <option value="currentHabit">Current Habit</option>
+              {this.state.data.habit &&
+              Object.keys(this.state.data.habit).length > 1 ? (
+                <option value="allHabits">All Habits</option>
+              ) : null}
+            </select>
+          </fieldset>
+
+          <fieldset>
+            {" "}
+            <label htmlFor="variableSelect">
+              Change process variable graph
+            </label>
+            <select
+              name="variableSelect"
+              id="variableSelect"
+              onChange={this.changeHandler}
+              value={this.state.variableSelect}
+            >
+              {/* options need to be an array of vars */}
+              {variableSelectArr.map((item) => (
+                <option value={item} key={item}>
+                  {item}
+                </option>
+              ))}
+            </select>
+          </fieldset>
+        </div>
+
         {chartComponents}
       </div>
     );

@@ -95,13 +95,18 @@ export default class JournalSetup extends Component {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify(body),
-    }).then((res) => {
-      this.setState({
-        [this.state.selectedLabel]: this.state[
-          `${this.state.selectedLabel}_input`
-        ],
+    })
+      .then((res) => {
+        this.setState({
+          [this.state.selectedLabel]: this.state[
+            `${this.state.selectedLabel}_input`
+          ],
+        });
+        return res.json();
+      })
+      .then((jsonRes) => {
+        console.log(jsonRes);
       });
-    });
   };
   render() {
     return (
