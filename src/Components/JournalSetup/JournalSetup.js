@@ -95,18 +95,13 @@ export default class JournalSetup extends Component {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify(body),
-    })
-      .then((res) => {
-        this.setState({
-          [this.state.selectedLabel]: this.state[
-            `${this.state.selectedLabel}_input`
-          ],
-        });
-        return res.json();
-      })
-      .then((jsonRes) => {
-        console.log(jsonRes);
+    }).then((res) => {
+      this.setState({
+        [this.state.selectedLabel]: this.state[
+          `${this.state.selectedLabel}_input`
+        ],
       });
+    });
   };
   render() {
     return (
@@ -120,33 +115,23 @@ export default class JournalSetup extends Component {
           regularly tracking your target variable and your habits, you can stay
           on track and develop self awareness.
         </p>
-        {/* HOW DO I SELECT THIS SO THAT IT IS A FORM CONTAINER WITH A FEW MODIFICATIONS */}
-        <div className="setup-item-container">
-          <div className="journal-setup-items">
-            <JournalMetrics
-              goal={this.state.goal}
-              process_variable={this.state.process_variable}
-              habit={this.state.habit}
-              changeHandler={this.changeHandler}
-              handleSubmit={this.handleSubmit}
-              changeInputHandler={this.changeInputHandler}
-              selectedLabel={this.state.selectedLabel}
-            />
-          </div>
-          <div className="button-container">
-            <ul>
-              {/* <li className="nav-button glow-button">
-                <NavLink to={`/dashboard`} className="Nav-button">
-                  Go to my Dashboard
-                </NavLink>
-              </li> */}
-              <li className="nav-button glow-button">
-                <NavLink to={`/journal-entry`} className="Nav-button">
-                  Make a Journal Entry
-                </NavLink>
-              </li>
-            </ul>
-          </div>
+        <JournalMetrics
+          goal={this.state.goal}
+          process_variable={this.state.process_variable}
+          habit={this.state.habit}
+          changeHandler={this.changeHandler}
+          handleSubmit={this.handleSubmit}
+          changeInputHandler={this.changeInputHandler}
+          selectedLabel={this.state.selectedLabel}
+        />
+        <div className="button-container">
+          <ul>
+            <li className="nav-button glow-button">
+              <NavLink to={`/journal-entry`} className="Nav-button">
+                Make a Journal Entry
+              </NavLink>
+            </li>
+          </ul>
         </div>
       </div>
     );

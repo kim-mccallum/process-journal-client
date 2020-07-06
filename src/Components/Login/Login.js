@@ -33,8 +33,8 @@ export default class Login extends Component {
             free to sign in with the provided demo account to look around.
             Please don't change any variables in here yet.
           </p>
-          <p>Demo username: demo</p>
-          <p>Demo password: demopassword</p>
+          <p className="demo-credentials">Demo username: demo</p>
+          <p className="demo-credentials">Demo password: demopassword</p>
           <label htmlFor="username">Username</label>
           <input
             type="text"
@@ -43,7 +43,7 @@ export default class Login extends Component {
             placeholder="user name"
             onChange={this.changeHandler}
           ></input>
-          <label htmlFor="password"></label>
+          <label htmlFor="password">Password</label>
           <input
             type="password"
             name="password"

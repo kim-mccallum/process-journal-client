@@ -69,16 +69,17 @@ form {
   background-color: #ebeced;
 }
 
-button {
+/* button {
   display: block;
-  margin: 10px;
-}
+  margin: 20px auto;
+} */
 
 a {
   text-decoration: none;
 }
 
 p {
+  margin: 0;
   padding: 5px;
   font-size: 16px;
 }
@@ -92,6 +93,7 @@ p {
   color: rgba(255, 255, 255, 0.8);
   background: #b593ce;
   margin: 10px;
+  text-align: center;
   padding: 15px 40px;
   font-weight: normal;
   text-transform: uppercase;
@@ -102,10 +104,14 @@ p {
   color: rgba(255, 255, 255, 1);
   box-shadow: 0 5px 15px rgba(145, 92, 182, 0.4);
 }
-
+fieldset {
+  text-align: center;
+  width: 100%;
+}
 input,
 select {
   display: block;
+  margin: auto;
 }
 
 .validationError {

@@ -10,74 +10,80 @@ export default function JournalMetric(props) {
   // We also need to pass a changeButtonHandler???
   return (
     <>
-      <h1 className="journal-metric">Goal</h1>
-      <p className="description">
-        The outcome you are working for. Make sure to set SMART goals (specific,
-        measureable, acheivable, realistic and timely.
-      </p>
+      <fieldset className="journal-metric-fieldset">
+        <h1 className="journal-metric">Goal</h1>
+        <p className="description">
+          The outcome you are working for. Make sure to set SMART goals
+          (specific, measureable, acheivable, realistic and timely).
+        </p>
 
-      {/* GOAL - If the value exists, render it, otherwise, render an input with event handlers and dynamic attributes */}
-      {props.goal ? (
-        <p className="user-value">{props.goal}</p>
-      ) : (
-        <input
-          type="text"
-          name="goal"
-          onChange={props.changeInputHandler}
-        ></input>
-      )}
-      <ChangeMetric
-        changeHandler={props.changeHandler}
-        // pass the event and the value - figure out how to pass value? RESEARCH
-        handleSubmit={() => props.handleSubmit()}
-        id="goal"
-        text={goalButton}
-        label={"goal"}
-      />
-      {/* VARIABLE */}
-      <h1 className="journal-metric">Process Variable</h1>
-      <p className="description">
-        What you measure regularly to monitor progress toward your goal.
-      </p>
-      {props.process_variable ? (
-        <p className="user-value">{props.process_variable}</p>
-      ) : (
-        <input
-          type="text"
-          name="process_variable"
-          onChange={props.changeInputHandler}
-        ></input>
-      )}
-      <ChangeMetric
-        changeHandler={props.changeHandler}
-        // pass the event and the value - figure out how to pass value? RESEARCH
-        handleSubmit={() => props.handleSubmit()}
-        id="process_variable"
-        text={variableButton}
-        label={"process_variable"}
-      />
-      {/* HABIT */}
-      <h1 className="journal-metric">Habit</h1>
-      <p className="description">
-        The thing you regularly do or do not do that supports your process.
-      </p>
-      {props.habit ? (
-        <p className="user-value">{props.habit}</p>
-      ) : (
-        <input
-          type="text"
-          name="habit"
-          onChange={props.changeInputHandler}
-        ></input>
-      )}
-      <ChangeMetric
-        changeHandler={props.changeHandler}
-        // pass the event and the value - figure out how to pass value? RESEARCH
-        handleSubmit={() => props.handleSubmit()}
-        id="habit"
-        text={habitButton}
-        label={"habit"}
-      />
+        {/* GOAL - If the value exists, render it, otherwise, render an input with event handlers and dynamic attributes */}
+        {props.goal ? (
+          <p className="user-value">{props.goal}</p>
+        ) : (
+          <input
+            type="text"
+            name="goal"
+            onChange={props.changeInputHandler}
+          ></input>
+        )}
+        <ChangeMetric
+          changeHandler={props.changeHandler}
+          // pass the event and the value - figure out how to pass value? RESEARCH
+          handleSubmit={() => props.handleSubmit()}
+          id="goal"
+          text={goalButton}
+          label={"goal"}
+        />
+      </fieldset>
+      <fieldset className="journal-metric-fieldset">
+        {/* VARIABLE */}
+        <h1 className="journal-metric">Process Variable</h1>
+        <p className="description">
+          What you measure regularly to monitor progress toward your goal.
+        </p>
+        {props.process_variable ? (
+          <p className="user-value">{props.process_variable}</p>
+        ) : (
+          <input
+            type="text"
+            name="process_variable"
+            onChange={props.changeInputHandler}
+          ></input>
+        )}
+        <ChangeMetric
+          changeHandler={props.changeHandler}
+          // pass the event and the value - figure out how to pass value? RESEARCH
+          handleSubmit={() => props.handleSubmit()}
+          id="process_variable"
+          text={variableButton}
+          label={"process_variable"}
+        />
+      </fieldset>
+      <fieldset className="journal-metric-fieldset">
+        {/* HABIT */}
+        <h1 className="journal-metric">Habit</h1>
+        <p className="description">
+          The thing you regularly do or do not do that supports your process.
+        </p>
+        {props.habit ? (
+          <p className="user-value">{props.habit}</p>
+        ) : (
+          <input
+            type="text"
+            name="habit"
+            onChange={props.changeInputHandler}
+          ></input>
+        )}
+        <ChangeMetric
+          changeHandler={props.changeHandler}
+          // pass the event and the value - figure out how to pass value? RESEARCH
+          handleSubmit={() => props.handleSubmit()}
+          id="habit"
+          text={habitButton}
+          label={"habit"}
+        />
+      </fieldset>
     </>
   );
 }
