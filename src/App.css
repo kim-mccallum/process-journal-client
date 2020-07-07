@@ -111,7 +111,8 @@ fieldset {
 input,
 select {
   display: block;
-  margin: auto;
+  margin: 5px auto;
+  padding: 5px;
 }
 
 .validationError {

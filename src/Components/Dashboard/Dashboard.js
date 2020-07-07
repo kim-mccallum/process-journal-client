@@ -235,42 +235,14 @@ export default class Dashboard extends Component {
     ) : (
       <p></p>
     );
-    // If the data are loading, don't try to render the charts
-    let chartComponents = !this.state.dataLoading ? (
-      <div className="chart-container">
-        {this.state.habitSelect === "currentHabit" ? (
-          <DoughnutChart
-            data={this.state.data}
-            habit={this.state.currentMetrics.habit}
-          />
-        ) : (
-          <RadarChart habitData={this.state.data.habit} />
-        )}
-
-        <TrendChart
-          data={this.state.data}
-          currentMetrics={this.state.currentMetrics}
-        />
-      </div>
-    ) : (
-      ""
-    );
-
+    // set up an array of values for selection
     let variableSelectArr = this.state.data.variable
       ? Object.keys(this.state.data.variable)
       : [];
-    // console.log(this.state.data);
-    // console.log(this.state.data.habit);
-    return (
-      <div className="dashboard-container">
-        <div className="summary-container">
-          <h2 className="greeting">Welcome, {this.props.username}!</h2>
-          {/* if no entries or data is loading */}
-          {noEntriesMessage}
-          {summaryText}
-          {currentJournal}
-        </div>
-        <div className="graph-select-container">
+    // If the data are loading, don't try to render the charts
+    let chartComponents = !this.state.dataLoading ? (
+      <div className="chart-container">
+        <div className="flex-chart-container">
           <fieldset>
             <label htmlFor="habitSelect">Change habit graph</label>
             <select
@@ -285,7 +257,16 @@ export default class Dashboard extends Component {
               ) : null}
             </select>
           </fieldset>
-
+          {this.state.habitSelect === "currentHabit" ? (
+            <DoughnutChart
+              data={this.state.data}
+              habit={this.state.currentMetrics.habit}
+            />
+          ) : (
+            <RadarChart habitData={this.state.data.habit} />
+          )}
+        </div>
+        <div className="flex-chart-container">
           <fieldset>
             {" "}
             <label htmlFor="variableSelect">
@@ -305,6 +286,26 @@ export default class Dashboard extends Component {
               ))}
             </select>
           </fieldset>
+          <TrendChart
+            data={this.state.data}
+            currentMetrics={this.state.currentMetrics}
+          />
+        </div>
+      </div>
+    ) : (
+      ""
+    );
+
+    return (
+      <div className="dashboard-container">
+        <div className="summary-container">
+          <h2 className="greeting">
+            Welcome, {window.localStorage.getItem("username")}!
+          </h2>
+          {/* if no entries or data is loading */}
+          {noEntriesMessage}
+          {summaryText}
+          {currentJournal}
         </div>
 
         {chartComponents}

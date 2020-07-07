@@ -13,7 +13,6 @@ import "./App.css";
 class App extends Component {
   // just authentication here
   state = {
-    // set this back to false
     isAuth: false,
     error: false,
     authLoading: false,
@@ -27,7 +26,7 @@ class App extends Component {
     }
     // if the token exists, they have logged in successfully
     this.setState({
-      isAuth: false,
+      isAuth: true,
     });
   }
   // Sign up function - POST requests to the signup endpoing
@@ -79,8 +78,9 @@ class App extends Component {
       .then((user) => {
         // set in local storage
         window.localStorage.setItem("token", user.authToken);
+        window.localStorage.setItem("username", user.username);
         // update state
-        this.setState({ isAuth: true, username: user.username });
+        this.setState({ isAuth: true });
         console.log(user.username, "is logged in!");
         // after login redirect to to journal
         this.props.history.push("/journal-setup");
@@ -93,6 +93,7 @@ class App extends Component {
   logout = () => {
     this.setState({ isAuth: false });
     window.localStorage.removeItem("token");
+    window.localStorage.removeItem("username");
   };
 
   render() {
@@ -130,7 +131,7 @@ class App extends Component {
             component={(routeProps) => (
               <Dashboard
                 routeProps={routeProps}
-                username={this.state.username}
+                // username={this.state.username}
               />
             )}
           />

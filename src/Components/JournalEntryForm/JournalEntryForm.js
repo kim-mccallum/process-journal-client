@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import config from "../../config";
 import DatePicker from "react-datepicker";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import moment from "moment";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -11,7 +11,7 @@ export default class JournalEntryForm extends Component {
   state = {
     // date conversion happens in the submit
     date: new Date(),
-    goal: "",
+    // goal: "",
     process_variable: "",
     habit: "",
     variable_value: "",
@@ -21,7 +21,6 @@ export default class JournalEntryForm extends Component {
   // Make a fetch to all 3 endpoints to get: goal, variable, habit to put in state
   componentDidMount() {
     // specify URL's
-    const goalURL = `${config.API_ENDPOINT}/goal/current`;
     const variableURL = `${config.API_ENDPOINT}/process_variable/current`;
     const habitURL = `${config.API_ENDPOINT}/habit/current`;
 
@@ -34,30 +33,31 @@ export default class JournalEntryForm extends Component {
     };
     // make fetch with Promise.all -
     Promise.all([
-      fetch(goalURL, headerObject),
       fetch(variableURL, headerObject),
       fetch(habitURL, headerObject),
     ])
-      .then(([goalRes, varRes, habitRes]) => {
-        if (!goalRes.ok) {
-          return goalRes.json().then((e) => Promise.reject(e));
-        }
+      .then(([varRes, habitRes]) => {
         if (!varRes.ok) {
           return varRes.json().then((e) => Promise.reject(e));
         }
         if (!habitRes.ok) {
           return habitRes.json().then((e) => Promise.reject(e));
         }
-        return Promise.all([goalRes.json(), varRes.json(), habitRes.json()]);
+        return Promise.all([varRes.json(), habitRes.json()]);
       })
-      .then(([goalRes, variableRes, habitRes]) => {
-        this.setState({
-          goal: goalRes[0].goal,
-          process_variable: variableRes[0].process_variable,
-          habit: habitRes[0].habit,
-        });
+      .then(([variableRes, habitRes]) => {
+        if (variableRes.length > 0 && habitRes.length > 0) {
+          this.setState({
+            process_variable: variableRes[0].process_variable,
+            habit: habitRes[0].habit,
+            message: "",
+          });
+        } else {
+          this.setState({ message: "Journal has not yet been set up!" });
+        }
       })
       // catch and log errors
+      // IMPROVE THIS ERROR - IF THEY DON'T HAVE A GOAL/PROCESS_VARIABLE/HABIT, LET THEM KNOW
       .catch((err) => {
         this.setState({
           error: `Something went wrong. Here is the error: ${err}`,
@@ -159,35 +159,56 @@ export default class JournalEntryForm extends Component {
       });
   };
   render() {
+    console.log(this.state);
+
     let errorMessage = this.state.error ? (
       <p className="validationError">{this.state.error}</p>
     ) : (
       ""
     );
-    // render the questions
-    let formQuestions;
-    if (!this.state.target_name) {
-      formQuestions = <h1>Fetching your journal questions...</h1>;
-    }
-    // pull these out of state
-    formQuestions = (
-      <fieldset>
-        {/* Make sure this is a number */}
-        <label htmlFor="variable_value">{this.state.process_variable}</label>
-        <input
-          type="text"
-          name="variable_value"
-          required
-          onChange={this.changeHandler}
-        ></input>
 
-        <label htmlFor="habit_value">{this.state.habit}</label>
-        <select name="habit_value" required onChange={this.changeHandler}>
-          <option value="1">Yes</option>
-          <option value="0">No</option>
-        </select>
-        <button type="submit">Submit entry</button>
-      </fieldset>
+    // render the questions
+    let formContent = !this.state.message ? (
+      <>
+        <label htmlFor="date">Entry Date:</label>
+        <DatePicker
+          name="date"
+          className="date-selector"
+          selected={this.state.date}
+          onChange={this.dateHandler}
+        />
+        <fieldset>
+          {/* Make sure this is a number */}
+          <label htmlFor="variable_value">{this.state.process_variable}</label>
+          <input
+            type="text"
+            name="variable_value"
+            required
+            onChange={this.changeHandler}
+          ></input>
+
+          <label htmlFor="habit_value">{this.state.habit}</label>
+          <select name="habit_value" required onChange={this.changeHandler}>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+          </select>
+          <button type="submit">Submit entry</button>
+        </fieldset>
+      </>
+    ) : (
+      <>
+        <p>{this.state.message}</p>
+        <br />
+        <div className="button-container">
+          <ul>
+            <li className="nav-button glow-button">
+              <Link to={`/journal-setup`} className="Nav-button" disabled>
+                Setup your journal
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </>
     );
 
     return (
@@ -195,14 +216,8 @@ export default class JournalEntryForm extends Component {
         <form onSubmit={this.submitHandler}>
           <h2>Make a journal entry</h2>
           {errorMessage}
-          <label htmlFor="date">Entry Date:</label>
-          <DatePicker
-            name="date"
-            className="date-selector"
-            selected={this.state.date}
-            onChange={this.dateHandler}
-          />
-          {formQuestions}
+
+          {formContent}
         </form>
       </div>
     );

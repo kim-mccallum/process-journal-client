@@ -104,6 +104,20 @@ export default class JournalSetup extends Component {
     });
   };
   render() {
+    let entryButton =
+      this.state.goal && this.state.habit && this.state.process_variable ? (
+        <div className="button-container">
+          <ul>
+            <li className="nav-button glow-button">
+              <NavLink to={`/journal-entry`} className="Nav-button" disabled>
+                Make a Journal Entry
+              </NavLink>
+            </li>
+          </ul>
+        </div>
+      ) : (
+        ""
+      );
     return (
       <div className="setup-container">
         <h2>Your Journal</h2>
@@ -124,15 +138,7 @@ export default class JournalSetup extends Component {
           changeInputHandler={this.changeInputHandler}
           selectedLabel={this.state.selectedLabel}
         />
-        <div className="button-container">
-          <ul>
-            <li className="nav-button glow-button">
-              <NavLink to={`/journal-entry`} className="Nav-button">
-                Make a Journal Entry
-              </NavLink>
-            </li>
-          </ul>
-        </div>
+        {entryButton}
       </div>
     );
   }
