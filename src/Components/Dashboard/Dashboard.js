@@ -84,9 +84,9 @@ export default class Dashboard extends Component {
         let sortedData = this.sortData(entriesRes);
         console.log(sortedData);
         // Match should be true/false
-        let match = this.checkForEntries(
+        let matchHabit = this.checkForHabitEntries(sortedData, currentHabit);
+        let matchVariable = this.checkForVariableEntries(
           sortedData,
-          currentHabit,
           currentVariable
         );
         // THE FINAL SETSTATE
@@ -98,7 +98,8 @@ export default class Dashboard extends Component {
             variable: currentVariable,
             goal: currentGoal,
           },
-          entriesAvailable: match,
+          habitEntriesAvailable: matchHabit,
+          variableEntriesAvailable: matchVariable,
           variableSelect: currentVariable,
         });
       })
@@ -144,20 +145,26 @@ export default class Dashboard extends Component {
     });
     return outObject;
   };
-  // WHEN TO CALL THIS FUNCTION - CAN'T CALL IT IN FETCH BECAUSE IT'S NOT IN STATE YET!
-  checkForEntries = (sortedData, currentHabit, currentVariable) => {
+  // Call this function to see if the current habit and variable exist in the data
+  checkForHabitEntries = (sortedData, currentHabit) => {
     let match = false;
-    if (
-      sortedData.habit[currentHabit] &&
-      sortedData.variable[currentVariable]
-    ) {
+    if (sortedData.habit[currentHabit]) {
       match = true;
     }
     // I wanted this to return true or false not undefined
-    console.log(`We have current entries? ${match}`);
+    console.log(`We have current habit entries? ${match}`);
     return match;
   };
 
+  checkForVariableEntries = (sortedData, currentVariable) => {
+    let match = false;
+    if (sortedData.variable[currentVariable]) {
+      match = true;
+    }
+    // I wanted this to return true or false not undefined
+    console.log(`We have current variable entries? ${match}`);
+    return match;
+  };
   changeHandler = (e) => {
     if (e.target.name === "variableSelect") {
       this.setState({
@@ -179,12 +186,11 @@ export default class Dashboard extends Component {
     console.log(this.state.habitSelect);
 
     // Only summarize their data if they have entries
-    let noEntriesMessage = !this.state.entriesAvailable ? (
+    let noHabitEntriesMessage = !this.state.habitEntriesAvailable ? (
       <div className="error-message-container">
         <h2 className="data-error">
-          Nothing to graph! You have not made any journal entries for your
-          current journal metrics! Use the button below to visit your journal
-          and make some entries.
+          There is no data for your current habit! Use the button below to visit
+          your journal and make some entries.
         </h2>
         <button className="nav-button glow-button">
           <NavLink to={`/journal-entry`}>Go to Journal Entries</NavLink>
@@ -193,9 +199,20 @@ export default class Dashboard extends Component {
     ) : (
       ""
     );
-    // MAYBE CREATE AN ARRAY OF HABITS AND VARIABLES FROM THE DATA IN STATE
-    // MAP OVER THESE TO CREATE A SELECTION MENU TO CHANGE THE GRAPHING DATA
-    // CREATE AN ONCHANGE HANDLER TO UPDATE THE CURRENTMETRICS IN STATE
+
+    let noVariableEntriesMessage = !this.state.variableEntriesAvailable ? (
+      <div className="error-message-container">
+        <h2 className="data-error">
+          There is no data for your current variable! Use the button below to
+          visit your journal and make some entries.
+        </h2>
+        <button className="nav-button glow-button">
+          <NavLink to={`/journal-entry`}>Go to Journal Entries</NavLink>
+        </button>
+      </div>
+    ) : (
+      ""
+    );
 
     // Get the percent of habits and the average value for variables
     let summaryText =
@@ -250,14 +267,18 @@ export default class Dashboard extends Component {
               id="habitSelect"
               onChange={this.changeHandler}
             >
+              {/* make this allHabits if they don't have habit data */}
+              {/* THIS IS WRONG  */}
               <option value="currentHabit">Current Habit</option>
               {this.state.data.habit &&
-              Object.keys(this.state.data.habit).length > 1 ? (
+              Object.keys(this.state.data.habit).length > 1 &&
+              this.state.habitEntriesAvailable ? (
                 <option value="allHabits">All Habits</option>
               ) : null}
             </select>
           </fieldset>
-          {this.state.habitSelect === "currentHabit" ? (
+          {this.state.habitSelect === "currentHabit" &&
+          this.state.habitEntriesAvailable ? (
             <DoughnutChart
               data={this.state.data}
               habit={this.state.currentMetrics.habit}
@@ -302,10 +323,11 @@ export default class Dashboard extends Component {
           <h2 className="greeting">
             Welcome, {window.localStorage.getItem("username")}!
           </h2>
-          {/* if no entries or data is loading */}
-          {noEntriesMessage}
-          {summaryText}
           {currentJournal}
+          {/* if no entries or data is loading */}
+          {noHabitEntriesMessage}
+          {noVariableEntriesMessage}
+          {summaryText}
         </div>
 
         {chartComponents}

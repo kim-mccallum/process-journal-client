@@ -21,7 +21,6 @@ export default class Banner extends Component {
       <FontAwesomeIcon
         className="menu-icon"
         icon={faAlignLeft}
-        size="lg"
         onClick={this.sideNavHandler}
       />
     ) : (

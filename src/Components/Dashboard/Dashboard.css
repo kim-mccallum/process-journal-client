@@ -60,7 +60,12 @@
   margin-bottom: 20px;
   box-shadow: 0 5px 15px rgba(19, 36, 42, 0.4);
 }
-
+.error-message-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 .data-error {
   color: #d7431d;
 }

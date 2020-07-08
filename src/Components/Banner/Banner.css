@@ -25,6 +25,7 @@
 .menu-icon {
   color: #fcfdfd;
   margin-right: 40px;
+  font-size: large;
 }
 
 .menu-icon:hover {
@@ -42,5 +43,10 @@
 @media screen and (min-width: 1200px) {
   .login-link {
     font-size: 30px;
+  }
+  .menu-icon {
+    color: #fcfdfd;
+    margin-right: 50px;
+    font-size: xx-large;
   }
 }

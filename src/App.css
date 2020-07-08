@@ -109,7 +109,10 @@ p {
   color: #703c90;
   padding-bottom: 10px;
 }
-
+.link:hover {
+  color: #3358ff;
+  font-weight: 500;
+}
 .nav-button {
   text-decoration: none;
   background: #b084cc;
