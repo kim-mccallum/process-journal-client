@@ -1,17 +1,25 @@
 body * {
   box-sizing: border-box;
-  font-family: "Roboto", sans-serif;
+  /* font-family: "Roboto", sans-serif; */
+  font-family: "Merriweather Sans", sans-serif;
 }
 
 body {
   margin: 0;
   padding: 0;
-  color: #1c1a17;
-  font-family: "Quicksand", sans-serif;
+  color: #13242a;
+  /* font-family: "Quicksand", sans-serif; */
+}
+h1,
+h2 {
+  /* font-family: "Lora", serif; */
+  /* font-family: "Roboto", sans-serif; */
+  font-family: "Asap", sans-serif;
 }
 
 .App {
-  background-image: url(./images/forest-background.svg);
+  /* background-image: url(./images/forest-background.svg); */
+  background-image: url(./images/forest-background-2.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   width: 100vw;
@@ -21,7 +29,7 @@ body {
 .app-nav {
   height: 100vh;
   position: absolute;
-  background-color: #262626;
+  background-color: #13242a;
   overflow-x: hidden;
   padding-top: 20px;
   color: #dfdac6;
@@ -55,9 +63,10 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #ebeced;
-  border: 1px solid black;
-  width: 65%;
+  background-color: #fcfdfd;
+  border: 1px solid #050b00;
+  padding: 10px;
+  width: 85%;
 }
 
 form {
@@ -69,44 +78,62 @@ form {
   background-color: #ebeced;
 }
 
-/* button {
-  display: block;
-  margin: 20px auto;
-} */
+button {
+  background-color: #d7f2ba;
+  color: #13242a;
+  border: 1px solid rgba(73, 120, 23, 0.8);
+  margin: 10px;
+  text-align: center;
+  padding: 10px 20px;
+  font-weight: normal;
+  transition: all 0.2s ease-in-out;
+}
+button:hover {
+  /* color: rgba(255, 255, 255, 1); */
+  background-color: #91db43;
+  box-shadow: 0 5px 15px rgba(73, 120, 23, 0.4);
+}
 
 a {
   text-decoration: none;
+  color: #13242a;
 }
 
 p {
   margin: 0;
-  padding: 5px;
+  padding: 10px;
   font-size: 16px;
 }
 
 .link {
-  color: purple;
+  color: #703c90;
+  padding-bottom: 10px;
 }
 
 .nav-button {
   text-decoration: none;
-  color: rgba(255, 255, 255, 0.8);
-  background: #b593ce;
+  background: #b084cc;
+  border: 1px solid #8648ad;
   margin: 10px;
   text-align: center;
   padding: 15px 40px;
   font-weight: normal;
-  text-transform: uppercase;
   transition: all 0.2s ease-in-out;
 }
 
 .glow-button:hover {
+  background: #8648ad;
   color: rgba(255, 255, 255, 1);
-  box-shadow: 0 5px 15px rgba(145, 92, 182, 0.4);
+  box-shadow: 0 5px 15px rgba(21, 81, 74, 0.4);
 }
 fieldset {
   text-align: center;
   width: 100%;
+  border: none;
+}
+form {
+  margin: 5px;
+  padding: 10px;
 }
 input,
 select {
@@ -117,12 +144,15 @@ select {
 
 .validationError {
   font-size: 16px;
-  color: red;
+  color: #d7431d;
 }
 
 @media screen and (min-width: 737px) {
   p {
     padding: 15px;
     font-size: 22px;
+  }
+  .form-container {
+    width: 65%;
   }
 }

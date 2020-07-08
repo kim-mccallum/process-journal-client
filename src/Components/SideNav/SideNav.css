@@ -16,14 +16,14 @@ li {
   color: #fff;
 }
 .Nav_link:hover {
-  color: yellow;
+  color: #f29040;
 }
 .Nav_link:active {
-  color: teal;
+  color: #269285;
 }
 
 .activeRoute {
-  background-color: yellow;
-  border-bottom: 0.2rem solid teal;
+  background-color: #daefb3;
+  border-bottom: 0.2rem solid #269285;
   cursor: not-allowed;
 }

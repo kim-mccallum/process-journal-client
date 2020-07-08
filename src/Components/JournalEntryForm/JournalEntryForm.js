@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import config from "../../config";
 import DatePicker from "react-datepicker";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import moment from "moment";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -170,7 +170,7 @@ export default class JournalEntryForm extends Component {
     // render the questions
     let formContent = !this.state.message ? (
       <>
-        <label htmlFor="date">Entry Date:</label>
+        <label htmlFor="date">Journal Entry Date:</label>
         <DatePicker
           name="date"
           className="date-selector"
@@ -179,7 +179,7 @@ export default class JournalEntryForm extends Component {
         />
         <fieldset>
           {/* Make sure this is a number */}
-          <label htmlFor="variable_value">{this.state.process_variable}</label>
+          <label htmlFor="variable_value">{`Process variable: ${this.state.process_variable}`}</label>
           <input
             type="text"
             name="variable_value"
@@ -187,13 +187,22 @@ export default class JournalEntryForm extends Component {
             onChange={this.changeHandler}
           ></input>
 
-          <label htmlFor="habit_value">{this.state.habit}</label>
+          <label htmlFor="habit_value">{`Habit:  ${this.state.habit}. Did you complete it?`}</label>
           <select name="habit_value" required onChange={this.changeHandler}>
             <option value="1">Yes</option>
             <option value="0">No</option>
           </select>
-          <button type="submit">Submit entry</button>
+          <button type="submit">Submit Entry</button>
         </fieldset>
+        <div className="button-container">
+          <ul>
+            <li className="nav-button glow-button">
+              <NavLink to={`/dashboard`} className="Nav-button" disabled>
+                Go to Dashboard
+              </NavLink>
+            </li>
+          </ul>
+        </div>
       </>
     ) : (
       <>

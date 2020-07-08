@@ -11,7 +11,7 @@ export default function JournalMetric(props) {
   return (
     <>
       <fieldset className="journal-metric-fieldset">
-        <h1 className="journal-metric">Goal</h1>
+        <h2 className="journal-metric">Goal</h2>
         <p className="description">
           The outcome you are working for. Make sure to set SMART goals
           (specific, measureable, acheivable, realistic and timely).
@@ -38,7 +38,7 @@ export default function JournalMetric(props) {
       </fieldset>
       <fieldset className="journal-metric-fieldset">
         {/* VARIABLE */}
-        <h1 className="journal-metric">Process Variable</h1>
+        <h2 className="journal-metric">Process Variable</h2>
         <p className="description">
           What you measure regularly to monitor progress toward your goal.
         </p>
@@ -62,7 +62,7 @@ export default function JournalMetric(props) {
       </fieldset>
       <fieldset className="journal-metric-fieldset">
         {/* HABIT */}
-        <h1 className="journal-metric">Habit</h1>
+        <h2 className="journal-metric">Habit</h2>
         <p className="description">
           The thing you regularly do or do not do that supports your process.
         </p>

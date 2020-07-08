@@ -19,9 +19,12 @@
 }
 
 .stats {
-  background-color: grey;
+  background-color: #daefb3;
   border-radius: 10px;
-  padding: 5px;
+  padding: 10px 30px;
+  min-width: 30%;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 15px rgba(73, 120, 23, 0.4);
 }
 
 .stats > p {
@@ -45,7 +48,6 @@
   width: 100%;
   justify-content: space-evenly;
   height: 100%;
-  border: 1px solid black;
 }
 
 .flex-chart-container {
@@ -53,10 +55,14 @@
   flex-direction: column;
   height: 100%;
   width: 100%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 15px rgba(73, 120, 23, 0.4);
 }
 
 .data-error {
-  color: red;
+  color: #d7431d;
 }
 @media screen and (min-width: 1200px) {
   .chart-container {
@@ -64,5 +70,6 @@
   }
   .flex-chart-container {
     width: 50%;
+    margin: 20px;
   }
 }

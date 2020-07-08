@@ -53,7 +53,9 @@ export default class JournalSetup extends Component {
       })
       // catch and log errors
       .catch((err) => {
-        console.log(`Something went wrong. Here is the error: ${err}`);
+        console.log(
+          `Journal has either not been set up or there was an error. Status: ${err}`
+        );
       });
   }
   // pass this down to reset the value in state
