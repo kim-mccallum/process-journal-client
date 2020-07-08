@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { faAlignLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SideNav from "../../Components/SideNav/SideNav";
-import logo from "../../images/nature.svg";
+import logo from "../../images/tree.svg";
 import "./Banner.css";
 
 export default class Banner extends Component {

@@ -10,9 +10,7 @@
 .logo-container {
   width: 65px;
   height: 55px;
-  background-color: white;
   padding: 5px;
-  border-radius: 20px;
 }
 .logo {
   width: 100%;
@@ -31,6 +29,7 @@
 
 .menu-icon:hover {
   color: #daefb3;
+  box-shadow: 0 5px 15px rgba(218, 239, 179, 0.4);
 }
 
 .login-link {
