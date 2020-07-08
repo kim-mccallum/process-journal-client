@@ -131,6 +131,10 @@ fieldset {
   width: 100%;
   border: none;
 }
+label {
+  color: #13242a;
+  font-weight: 500;
+}
 form {
   margin: 5px;
   padding: 10px;
@@ -154,5 +158,6 @@ select {
   }
   .form-container {
     width: 65%;
+    padding: 50px;
   }
 }

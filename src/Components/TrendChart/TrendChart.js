@@ -6,7 +6,6 @@ import "./TrendChart.css";
 export default class Dashboard extends Component {
   state = {
     activeButton: "",
-    // currentMetrics: this.props.currentMetrics,
   };
   componentDidMount() {
     // call the build graph function
@@ -15,23 +14,10 @@ export default class Dashboard extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     console.log(this.props, prevProps);
-    // if (
-    //   this.prevProps.currentMetrics.variable !==
-    //   this.props.currentMetrics.variable
-    // ) {
-    //   console.log("new data!");
-
-    // }
-    //rebuild the graph with new data
     this.buildGraph();
   }
 
   buildGraph = () => {
-    // console.log("We made it into buildGraph");
-    // console.log(this.props);
-    // transform data
-    const currentMetrics = this.props.currentMetrics;
-    // console.log(currentMetrics);
     const trendData = this.props.data;
     // build a graph object data
     let graphData = {
@@ -42,7 +28,8 @@ export default class Dashboard extends Component {
           data: [],
           type: "line",
           yAxisID: "A",
-          backgroundColor: "#EBCCD1", // red
+          backgroundColor: "rgb(242, 144, 64, .4)",
+          borderColor: "rgb(215, 67, 29)",
         },
       ],
     };
@@ -56,9 +43,6 @@ export default class Dashboard extends Component {
       graphData.datasets[0].data =
         trendData.variable[this.props.currentMetrics.variable].values;
     }
-    // DEAL WITH THE FACT THAT THE CHARTS DON'T RERENDER ON CHANGE
-    //  grab the canvas and getContext
-    // let ctx = document.getElementById("dashboard-chart").getContext("2d");
     let element = document.getElementById("dashboard-chart");
     element.remove();
     //  grab the parent and append new
@@ -88,7 +72,6 @@ export default class Dashboard extends Component {
   };
 
   render() {
-    console.log(this.props);
     return (
       <div className="trendchart-container">
         <canvas id="dashboard-chart"></canvas>

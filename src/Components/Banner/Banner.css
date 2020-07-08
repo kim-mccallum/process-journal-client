@@ -18,7 +18,6 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  color: #fcfdfd;
 }
 
 .app-name {
@@ -27,7 +26,11 @@
 /* Having trouble making this icon larger! */
 .menu-icon {
   color: #fcfdfd;
-  margin-right: 50px;
+  margin-right: 40px;
+}
+
+.menu-icon:hover {
+  color: #daefb3;
 }
 
 .login-link {

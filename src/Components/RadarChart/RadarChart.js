@@ -35,8 +35,8 @@ export default class RadarChart extends Component {
         {
           // get an array of values (sum of values/length)
           data: [],
-          backgroundColor: "rgb(255, 159, 64)",
-          borderColor: "rgb(255, 99, 132)",
+          backgroundColor: "rgb(242, 144, 64, .4)",
+          borderColor: "rgb(215, 67, 29)",
         },
       ],
     };

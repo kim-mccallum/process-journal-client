@@ -8,8 +8,8 @@ const getChartData = (habitValArray) => {
     datasets: [
       {
         data: [],
-        backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(54, 162, 235, 0.2)"],
-        borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)"],
+        backgroundColor: ["rgba(215, 67, 29, 0.2)", "rgba(26, 101, 199, 0.2)"],
+        borderColor: ["rgba(215, 67, 29, 1)", "rgba(26, 101, 199, 1)"],
       },
     ],
     labels: ["Not done", "Done"],

@@ -24,7 +24,7 @@
   padding: 10px 30px;
   min-width: 30%;
   margin-bottom: 20px;
-  box-shadow: 0 5px 15px rgba(73, 120, 23, 0.4);
+  box-shadow: 0 5px 15px rgba(19, 36, 42, 0.4);
 }
 
 .stats > p {
@@ -58,7 +58,7 @@
   padding-top: 20px;
   padding-bottom: 20px;
   margin-bottom: 20px;
-  box-shadow: 0 5px 15px rgba(73, 120, 23, 0.4);
+  box-shadow: 0 5px 15px rgba(19, 36, 42, 0.4);
 }
 
 .data-error {
