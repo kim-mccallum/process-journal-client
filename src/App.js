@@ -21,6 +21,7 @@ class App extends Component {
   // Need to fix this because currently the token expires
   componentDidMount() {
     const token = window.localStorage.getItem("token");
+    // add check to ensure it is not expired
     if (!token) {
       return;
     }
@@ -76,6 +77,10 @@ class App extends Component {
         return response.json();
       })
       .then((user) => {
+        // get the expiration from the payload
+        // create the expiration here in login
+        // in ComponentDidMount see if there is a token and see if it is expired before setting isAuth: true
+        console.log(user);
         // set in local storage
         window.localStorage.setItem("token", user.authToken);
         window.localStorage.setItem("username", user.username);

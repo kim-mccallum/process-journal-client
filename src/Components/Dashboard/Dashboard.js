@@ -4,11 +4,11 @@ import React, { Component } from "react";
 import TrendChart from "../TrendChart/TrendChart";
 import DoughnutChart from "../DoughnutChart/DoughnutChart";
 import RadarChart from "../RadarChart/RadarChart";
-import { NavLink } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
 import config from "../../config";
 import "./Dashboard.css";
 
-export default class Dashboard extends Component {
+class Dashboard extends Component {
   state = {
     activeButton: "",
     dataLoading: true,
@@ -79,7 +79,6 @@ export default class Dashboard extends Component {
           currentVariable,
           currentGoal
         );
-        // console.log(entriesRes);
 
         let sortedData = this.sortData(entriesRes);
         console.log(sortedData);
@@ -89,6 +88,9 @@ export default class Dashboard extends Component {
           sortedData,
           currentVariable
         );
+        // if there are no entries, redirect to make one - this isn't running due to an error
+        this.checkForEntries(sortedData);
+
         // THE FINAL SETSTATE
         this.setState({
           dataLoading: false,
@@ -104,7 +106,9 @@ export default class Dashboard extends Component {
         });
       })
       // catch and log errors
+      // maybe just redirect to journal-entries
       .catch((err) => {
+        this.props.history.push("/journal-entry");
         console.log(`Something went wrong. Here is the error: ${err}`);
       });
   }
@@ -144,6 +148,19 @@ export default class Dashboard extends Component {
       }
     });
     return outObject;
+  };
+  checkForEntries = (sortedData) => {
+    // see if there are entries
+    let counter = 0;
+    Object.values(sortedData).forEach((item) => {
+      if (Object.keys(item).length === 0) {
+        counter += 1;
+      }
+    });
+    if (counter === 2) {
+      this.props.history.push("/journal-entry");
+    }
+    // if not, redirect to journal entry
   };
   // Call this function to see if the current habit and variable exist in the data
   checkForHabitEntries = (sortedData, currentHabit) => {
@@ -268,11 +285,15 @@ export default class Dashboard extends Component {
               onChange={this.changeHandler}
             >
               {/* make this allHabits if they don't have habit data */}
-              {/* THIS IS WRONG  */}
-              <option value="currentHabit">Current Habit</option>
+              {/* THIS IS WRONG  = this is where we need the logic*/}
+              {this.state.habitEntriesAvailable ? (
+                <option value="currentHabit">Current Habit</option>
+              ) : (
+                ""
+              )}
+
               {this.state.data.habit &&
-              Object.keys(this.state.data.habit).length > 1 &&
-              this.state.habitEntriesAvailable ? (
+              Object.keys(this.state.data.habit).length > 1 ? (
                 <option value="allHabits">All Habits</option>
               ) : null}
             </select>
@@ -335,3 +356,5 @@ export default class Dashboard extends Component {
     );
   }
 }
+
+export default withRouter(Dashboard);

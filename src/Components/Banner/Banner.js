@@ -16,6 +16,15 @@ export default class Banner extends Component {
     this.setState({ sideNavVisible: !this.state.sideNavVisible });
   };
 
+  // Set state in another way to get around setStates limits
+  static getDerivedStateFromProps(props, state) {
+    let obj = { sideNavVisible: state.sideNavVisible };
+    if (!props.isAuth) {
+      obj = { sideNavVisible: false };
+    }
+    return obj;
+  }
+
   render() {
     const menu = this.props.isAuth ? (
       <FontAwesomeIcon
@@ -28,6 +37,15 @@ export default class Banner extends Component {
         Login
       </NavLink>
     );
+    const sideNav =
+      this.props.isAuth && this.state.sideNavVisible ? (
+        <SideNav
+          toggleMenu={this.state.sideNavVisible}
+          logout={this.props.logout}
+        />
+      ) : (
+        ""
+      );
     return (
       <>
         <div className="banner">
@@ -37,10 +55,7 @@ export default class Banner extends Component {
           <h1 className="app-name">Process Journal</h1>
           {menu}
         </div>
-        <SideNav
-          toggleMenu={this.state.sideNavVisible}
-          logout={this.props.logout}
-        />
+        {sideNav}
       </>
     );
   }
