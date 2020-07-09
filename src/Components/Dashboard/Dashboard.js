@@ -200,7 +200,7 @@ class Dashboard extends Component {
   };
 
   render() {
-    console.log(this.state.habitSelect);
+    console.log(this.state.entriesAvailable);
 
     // Only summarize their data if they have entries
     let noHabitEntriesMessage = !this.state.habitEntriesAvailable ? (
@@ -233,7 +233,9 @@ class Dashboard extends Component {
 
     // Get the percent of habits and the average value for variables
     let summaryText =
-      !this.state.dataLoading && this.state.entriesAvailable ? (
+      !this.state.dataLoading &&
+      this.state.habitEntriesAvailable &&
+      this.state.variableEntriesAvailable ? (
         <p>
           You have made
           {` ${
@@ -344,11 +346,11 @@ class Dashboard extends Component {
           <h2 className="greeting">
             Welcome, {window.localStorage.getItem("username")}!
           </h2>
+          {summaryText}
           {currentJournal}
           {/* if no entries or data is loading */}
           {noHabitEntriesMessage}
           {noVariableEntriesMessage}
-          {summaryText}
         </div>
 
         {chartComponents}
