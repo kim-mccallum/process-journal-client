@@ -74,16 +74,22 @@ class App extends Component {
         if (response.status === 400) {
           throw new Error(response.error);
         }
+        // add this to any endpoint -
+        if (response.status === 401) {
+          console.log("let us log out");
+          window.sessionStorage.removeItem("token");
+          window.sessionStorage.removeItem("username");
+          this.props.history.push("/login");
+        }
         return response.json();
       })
       .then((user) => {
-        // get the expiration from the payload
+        // get the expiration from the payload - set a timer and remove it just before it expires
         // create the expiration here in login
         // in ComponentDidMount see if there is a token and see if it is expired before setting isAuth: true
         console.log(user);
-        // set in local storage
-        window.localStorage.setItem("token", user.authToken);
-        window.localStorage.setItem("username", user.username);
+        window.sessionStorage.setItem("token", user.authToken);
+        window.sessionStorage.setItem("username", user.username);
         // update state
         this.setState({ isAuth: true });
         console.log(user.username, "is logged in!");
@@ -97,8 +103,8 @@ class App extends Component {
   };
   logout = () => {
     this.setState({ isAuth: false });
-    window.localStorage.removeItem("token");
-    window.localStorage.removeItem("username");
+    window.sessionStorage.removeItem("token");
+    window.sessionStorage.removeItem("username");
   };
 
   render() {
@@ -124,6 +130,7 @@ class App extends Component {
         />
       </Switch>
     );
+    // if you are already logged in, login is not rendered!
     if (this.state.isAuth) {
       routes = (
         <Switch>

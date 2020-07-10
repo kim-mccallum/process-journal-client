@@ -36,7 +36,7 @@ class Dashboard extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
       },
     };
     // make fetch with Promise.all -
@@ -344,7 +344,7 @@ class Dashboard extends Component {
       <div className="dashboard-container">
         <div className="summary-container">
           <h2 className="greeting">
-            Welcome, {window.localStorage.getItem("username")}!
+            Welcome, {window.sessionStorage.getItem("username")}!
           </h2>
           {summaryText}
           {currentJournal}
