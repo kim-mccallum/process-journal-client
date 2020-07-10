@@ -7,16 +7,22 @@ Live application: [https://process-journal-client.vercel.app/](https://process-j
 ## User Flows ##
 
 #### Create an Account #### 
-![](public/images/sign-up.PNG)
+![](public/images/sign-up.png)
 
 #### Set up a Custom Journal ####
 ![](public/images/journal-setup.png)
 
 #### Make Daily Journal Entries to Current Custom Journal ####
+![](public/images/Journal-entry.png)
+
 
 #### Monitor Progress in Journal Dashboard ####
+![](public/images/dashboard-1.png)
+
+![](public/images/dashboard-2.png)
 
 #### Edit the Custom Journal to Track New Goals, Habits and Variables ####
+![](public/images/journal-setup-2.png)
 
 #### View Past Journal Data ####
 
