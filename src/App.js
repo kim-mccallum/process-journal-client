@@ -20,7 +20,7 @@ class App extends Component {
   };
   // Need to fix this because currently the token expires
   componentDidMount() {
-    const token = window.localStorage.getItem("token");
+    const token = window.sessionStorage.getItem("token");
     // add check to ensure it is not expired
     if (!token) {
       return;
