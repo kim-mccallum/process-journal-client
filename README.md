@@ -2,6 +2,8 @@
 
 An interactive web application for setting goals and tracking progress. This application is based on the premise that in order to acheive long term goals, you should focus on maintaining good habits related to your goal as well as tracking measurable steps toward your goal.
 
+Live application: [https://process-journal-client.vercel.app/](https://process-journal-client.vercel.app/)
+
 ## User Flows ##
 
 #### Create an Account #### 
@@ -15,8 +17,6 @@ An interactive web application for setting goals and tracking progress. This app
 #### Edit the Custom Journal to Track New Goals, Habits and Variables ####
 
 #### View Past Journal Data ####
-
-Live application: [https://process-journal-client.vercel.app/](https://process-journal-client.vercel.app/)
 
 ## Technologies: ##
 Process Journal is a full-stack web application. The client is hosted on Vercel and the server and database are hosted on Heroku. Here's the stack:
