@@ -7,9 +7,10 @@ Live application: [https://process-journal-client.vercel.app/](https://process-j
 ## User Flows ##
 
 #### Create an Account #### 
-![](public/images/sign-up.png)
+![](public/images/sign-up.PNG)
 
 #### Set up a Custom Journal ####
+![](public/images/journal-setup.png)
 
 #### Make Daily Journal Entries to Current Custom Journal ####
 
