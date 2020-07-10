@@ -72,16 +72,8 @@ class Dashboard extends Component {
         currentHabit = habitRes[0].habit;
         currentGoal = goalRes[0].goal;
 
-        // SHOULD THIS RETURN THE CURRENT VALUES AND SET STATE IN COMPONENT DID MOUNT?
-        console.log(
-          "here are the currents:",
-          currentHabit,
-          currentVariable,
-          currentGoal
-        );
-
         let sortedData = this.sortData(entriesRes);
-        console.log(sortedData);
+
         // Match should be true/false
         let matchHabit = this.checkForHabitEntries(sortedData, currentHabit);
         let matchVariable = this.checkForVariableEntries(
@@ -168,8 +160,6 @@ class Dashboard extends Component {
     if (sortedData.habit[currentHabit]) {
       match = true;
     }
-    // I wanted this to return true or false not undefined
-    console.log(`We have current habit entries? ${match}`);
     return match;
   };
 
@@ -178,8 +168,6 @@ class Dashboard extends Component {
     if (sortedData.variable[currentVariable]) {
       match = true;
     }
-    // I wanted this to return true or false not undefined
-    console.log(`We have current variable entries? ${match}`);
     return match;
   };
   changeHandler = (e) => {
@@ -200,8 +188,6 @@ class Dashboard extends Component {
   };
 
   render() {
-    console.log(this.state.entriesAvailable);
-
     // Only summarize their data if they have entries
     let noHabitEntriesMessage = !this.state.habitEntriesAvailable ? (
       <div className="error-message-container">

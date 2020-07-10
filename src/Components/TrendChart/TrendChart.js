@@ -35,7 +35,6 @@ export default class Dashboard extends Component {
     };
     //if data exist, format them in the object
     if (trendData.variable[this.props.currentMetrics.variable]) {
-      console.log("We have entries to graph!");
       graphData.labels = trendData.variable[
         this.props.currentMetrics.variable
       ].dates.map((dt) => moment(dt).format("L"));
@@ -49,8 +48,6 @@ export default class Dashboard extends Component {
     let parent = document.querySelector(".trendchart-container");
     parent.innerHTML = `<canvas id="dashboard-chart"></canvas>`;
     let ctx = document.getElementById("dashboard-chart").getContext("2d");
-
-    console.log(graphData);
 
     let myChart = new Chart(ctx, {
       type: "bar",

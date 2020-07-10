@@ -29,10 +29,10 @@ export default class DoughnutChart extends Component {
   componentDidMount() {
     let myDatasets = getChartData([0, 1]);
     if (this.props.data.habit && this.props.data.habit[this.props.habit]) {
-      console.log(
-        "we have habit data?",
-        this.props.data.habit[this.props.habit]
-      );
+      // console.log(
+      //   "we have habit data?",
+      //   this.props.data.habit[this.props.habit]
+      // );
       let valuesArr = this.props.data.habit[this.props.habit].values;
       myDatasets = getChartData(valuesArr);
     }
@@ -50,7 +50,6 @@ export default class DoughnutChart extends Component {
     });
   }
   render() {
-    console.log(this.props.data);
     return (
       <div className="habit-chart-container">
         <canvas id="dashboard-pie-chart" responsive="true"></canvas>

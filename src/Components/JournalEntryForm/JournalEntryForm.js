@@ -11,7 +11,6 @@ export default class JournalEntryForm extends Component {
   state = {
     // date conversion happens in the submit
     date: new Date(),
-    // goal: "",
     process_variable: "",
     habit: "",
     variable_value: "",
@@ -28,7 +27,6 @@ export default class JournalEntryForm extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        // Authorization: `Bearer ${localStorage.getItem("token")}`,
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
       },
     };
@@ -67,8 +65,6 @@ export default class JournalEntryForm extends Component {
   }
   // This doesn't seem to be putting the new values from the form into state
   changeHandler = (e) => {
-    // not getting the values from the form
-    console.log(e);
     this.setState({ [e.target.name]: e.target.value });
   };
   dateHandler = (selectedDate) => {
@@ -96,7 +92,6 @@ export default class JournalEntryForm extends Component {
 
     // make sure to change date UTC
     let date = moment.utc(this.state.date);
-    console.log(date);
 
     // set up your bodies
     const processVariableBody = {
@@ -111,8 +106,8 @@ export default class JournalEntryForm extends Component {
       variable: habit,
       value: habit_value,
     };
-    console.log(JSON.stringify(processVariableBody));
-    console.log(JSON.stringify(habitBody));
+    // console.log(JSON.stringify(processVariableBody));
+    // console.log(JSON.stringify(habitBody));
 
     // Post the process variable
     fetch(`${config.API_ENDPOINT}/entries`, {
@@ -142,7 +137,6 @@ export default class JournalEntryForm extends Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // Authorization: `Bearer ${localStorage.getItem("token")}`,
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
       },
       body: JSON.stringify(habitBody),
@@ -162,8 +156,6 @@ export default class JournalEntryForm extends Component {
       });
   };
   render() {
-    console.log(this.state);
-
     let errorMessage = this.state.error ? (
       <p className="validationError">{this.state.error}</p>
     ) : (

@@ -50,7 +50,6 @@ class App extends Component {
         return response.json();
       })
       .then((user) => {
-        console.log("okay, we made a user! Now we log them in");
         // once the user signs up, log them in
         this.login(formData);
       })
@@ -75,19 +74,19 @@ class App extends Component {
           throw new Error(response.error);
         }
         // add this to any endpoint -
-        if (response.status === 401) {
-          console.log("let us log out");
-          window.sessionStorage.removeItem("token");
-          window.sessionStorage.removeItem("username");
-          this.props.history.push("/login");
-        }
+        // if (response.status === 401) {
+        //   console.log("Logging out");
+        //   window.sessionStorage.removeItem("token");
+        //   window.sessionStorage.removeItem("username");
+        //   this.props.history.push("/login");
+        // }
         return response.json();
       })
       .then((user) => {
         // get the expiration from the payload - set a timer and remove it just before it expires
         // create the expiration here in login
         // in ComponentDidMount see if there is a token and see if it is expired before setting isAuth: true
-        console.log(user);
+        // console.log(user);
         window.sessionStorage.setItem("token", user.authToken);
         window.sessionStorage.setItem("username", user.username);
         // update state
