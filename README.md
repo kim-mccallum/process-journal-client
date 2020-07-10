@@ -25,6 +25,7 @@ Live application: [https://process-journal-client.vercel.app/](https://process-j
 ![](public/images/journal-setup-2.png)
 
 #### View Past Journal Data ####
+![](public/images/dashboard-3.png)
 
 ## Technologies: ##
 Process Journal is a full-stack web application. The client is hosted on Vercel and the server and database are hosted on Heroku. Here's the stack:
