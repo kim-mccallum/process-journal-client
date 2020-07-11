@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-// import Chart from "chart.js";
-// import moment from "moment";
 import TrendChart from "../TrendChart/TrendChart";
 import DoughnutChart from "../DoughnutChart/DoughnutChart";
 import RadarChart from "../RadarChart/RadarChart";
@@ -97,16 +95,14 @@ class Dashboard extends Component {
           variableSelect: currentVariable,
         });
       })
-      // catch and log errors
-      // maybe just redirect to journal-entries
+      // catch and log errors and redirect to journal-entries
       .catch((err) => {
         this.props.history.push("/journal-entry");
-        console.log(`Something went wrong. Here is the error: ${err}`);
+        // console.log(`Something went wrong. Here is the error: ${err}`);
       });
   }
 
   // Function to sort out data to prior to storing it in state
-  // Take an array of entries and sort them into an object with nested habit and variable objects:
   sortData = (entriesArray) => {
     // an object to push the unique habit/variables to
     let outObject = { habit: {}, variable: {} };
@@ -149,10 +145,11 @@ class Dashboard extends Component {
         counter += 1;
       }
     });
+    // if not, sortedData just has two empty arrays
     if (counter === 2) {
+      // redirect to journal entry
       this.props.history.push("/journal-entry");
     }
-    // if not, redirect to journal entry
   };
   // Call this function to see if the current habit and variable exist in the data
   checkForHabitEntries = (sortedData, currentHabit) => {

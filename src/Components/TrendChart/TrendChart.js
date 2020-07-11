@@ -11,9 +11,8 @@ export default class Dashboard extends Component {
     // call the build graph function
     this.buildGraph();
   }
-
+  // use this lifecycle method to update without setting state
   componentDidUpdate(prevProps, prevState) {
-    console.log(this.props, prevProps);
     this.buildGraph();
   }
 

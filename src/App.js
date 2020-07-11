@@ -43,7 +43,7 @@ class App extends Component {
       .then((response) => {
         if (!response.ok) {
           return response.json().then((e) => {
-            console.log(e.error);
+            // console.log(e.error);
             throw new Error(e.error);
           });
         }
@@ -91,7 +91,7 @@ class App extends Component {
         window.sessionStorage.setItem("username", user.username);
         // update state
         this.setState({ isAuth: true });
-        console.log(user.username, "is logged in!");
+        // console.log(user.username, "is logged in!");
         // after login redirect to to journal
         this.props.history.push("/journal-setup");
       })
@@ -139,12 +139,7 @@ class App extends Component {
           <Route
             exact
             path="/dashboard"
-            component={(routeProps) => (
-              <Dashboard
-                routeProps={routeProps}
-                // username={this.state.username}
-              />
-            )}
+            component={(routeProps) => <Dashboard routeProps={routeProps} />}
           />
         </Switch>
       );

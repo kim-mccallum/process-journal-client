@@ -14,9 +14,9 @@ export default function Landing() {
       <NavLink to={`/login`}>
         <button>Sign in</button>
       </NavLink>
-      <NavLink to={`/login`}>
+      {/* <NavLink to={`/login`}>
         <button>Sign in with demo account</button>
-      </NavLink>
+      </NavLink> */}
       <NavLink to={`/sign-up`}>
         <button>Create an account</button>
       </NavLink>

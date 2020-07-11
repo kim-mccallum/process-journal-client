@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import Chart from "chart.js";
-import moment from "moment";
 import "./DoughnutChart.css";
 
+// helper function to prepare data for the chart
 const getChartData = (habitValArray) => {
   let chartData = {
     datasets: [
@@ -22,17 +22,9 @@ const getChartData = (habitValArray) => {
 };
 
 export default class DoughnutChart extends Component {
-  // Don't think I need state
-  state = {
-    activeButton: "",
-  };
   componentDidMount() {
     let myDatasets = getChartData([0, 1]);
     if (this.props.data.habit && this.props.data.habit[this.props.habit]) {
-      // console.log(
-      //   "we have habit data?",
-      //   this.props.data.habit[this.props.habit]
-      // );
       let valuesArr = this.props.data.habit[this.props.habit].values;
       myDatasets = getChartData(valuesArr);
     }

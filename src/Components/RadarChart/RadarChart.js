@@ -42,7 +42,6 @@ export default class RadarChart extends Component {
     };
     data.labels = Object.keys(this.props.habitData);
     data.datasets[0].data = this.calcPercentage();
-    console.log(data);
 
     var myRadarChart = new Chart(ctx, {
       type: "radar",
@@ -53,8 +52,9 @@ export default class RadarChart extends Component {
 
   calcPercentage = () => {
     let outPercents = [];
+    // loop over object (keys/values)
     for (let [key, object] of Object.entries(this.props.habitData)) {
-      console.log(key, object);
+      // console.log(key, object);
       // convert to nums, reduce to sum,
       let sum = object.values.reduce((a, b) => parseInt(a) + parseInt(b), 0);
       //divide by length and multiply by 100
