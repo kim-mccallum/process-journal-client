@@ -60,6 +60,8 @@ Misc.
 
 ## About the Process Journal API
 
+API repository: [https://github.com/kim-mccallum/process-journal-api](https://github.com/kim-mccallum/process-journal-api)
+
 This API services the Process Journal React client application and comprises an Express server coupled with a PostgreSQL database. The database stores user information from the process journal client. This server has authentication endpoints for creating an account, logging in and access user journal data such as user goals, process variables, habits and journal entries. Passwords are securely hashed and stored and authentication is handled using JWT.
 
 A typical request pattern looks like this:
