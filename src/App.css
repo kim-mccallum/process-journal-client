@@ -1,6 +1,5 @@
 body * {
   box-sizing: border-box;
-  /* font-family: "Roboto", sans-serif; */
   font-family: "Merriweather Sans", sans-serif;
 }
 
@@ -8,41 +7,43 @@ body {
   margin: 0;
   padding: 0;
   color: #13242a;
-  /* font-family: "Quicksand", sans-serif; */
 }
+
 h1,
 h2 {
-  /* font-family: "Lora", serif; */
-  /* font-family: "Roboto", sans-serif; */
   font-family: "Asap", sans-serif;
 }
 
 .App {
-  /* background-image: url(./images/forest-background.svg); */
   background-image: url(./images/forest-background-2.jpg);
   background-repeat: no-repeat;
   background-size: cover;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
 }
-
+.banner {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #13242a;
+  height: 80px;
+  padding: 0 25px;
+}
 .app-nav {
-  height: 100vh;
   position: absolute;
   background-color: #13242a;
   overflow-x: hidden;
   padding-top: 20px;
   color: #dfdac6;
-}
-
-.app-nav {
+  height: calc(100% - 80px);
   right: 0;
   width: 150px;
   max-width: 0;
   transition: max-width 1s;
   left: unset;
   top: 80px;
-  z-index: 1500;
+  z-index: 5;
 }
 
 #active {
@@ -56,7 +57,7 @@ h2 {
   justify-content: center;
   margin: 0;
   width: 100%;
-  height: calc(100% - 79px);
+  height: calc(100% - 80px);
 }
 .form-container {
   display: flex;
@@ -89,7 +90,6 @@ button {
   transition: all 0.2s ease-in-out;
 }
 button:hover {
-  /* color: rgba(255, 255, 255, 1); */
   background-color: #91db43;
   box-shadow: 0 5px 15px rgba(73, 120, 23, 0.4);
 }
@@ -161,6 +161,12 @@ select {
   p {
     padding: 15px;
     font-size: 22px;
+  }
+  .banner {
+    height: 100px;
+  }
+  .form-wrapper {
+    height: calc(100% - 100px);
   }
   .form-container {
     width: 65%;
