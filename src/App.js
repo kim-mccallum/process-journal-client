@@ -7,6 +7,7 @@ import Login from "./Components/Login/Login";
 import SignUp from "./Components/SignUp/SignUp";
 import JournalSetup from "./Components/JournalSetup/JournalSetup";
 import JournalEntryForm from "./Components/JournalEntryForm/JournalEntryForm";
+import ErrorBoundary from "./Components/ErrorBoundary/ErrorBoundary";
 import config from "./config";
 import "./App.css";
 
@@ -109,39 +110,43 @@ class App extends Component {
   render() {
     let routes;
     routes = (
-      <Switch>
-        <Route exact path="/" component={Landing} />
-        <Route
-          exact
-          path="/login"
-          render={() => <Login error={this.state.error} login={this.login} />}
-        />
-        <Route
-          exact
-          path="/sign-up"
-          render={(routeProps) => (
-            <SignUp
-              signup={this.signup}
-              error={this.state.error}
-              {...routeProps}
-            />
-          )}
-        />
-      </Switch>
+      <ErrorBoundary>
+        <Switch>
+          <Route exact path="/" component={Landing} />
+          <Route
+            exact
+            path="/login"
+            render={() => <Login error={this.state.error} login={this.login} />}
+          />
+          <Route
+            exact
+            path="/sign-up"
+            render={(routeProps) => (
+              <SignUp
+                signup={this.signup}
+                error={this.state.error}
+                {...routeProps}
+              />
+            )}
+          />
+        </Switch>
+      </ErrorBoundary>
     );
     // if you are already logged in, login is not rendered!
     if (this.state.isAuth) {
       routes = (
-        <Switch>
-          <Route exact path="/" component={Landing} />
-          <Route exact path="/journal-setup" component={JournalSetup} />
-          <Route exact path="/journal-entry" component={JournalEntryForm} />
-          <Route
-            exact
-            path="/dashboard"
-            component={(routeProps) => <Dashboard routeProps={routeProps} />}
-          />
-        </Switch>
+        <ErrorBoundary>
+          <Switch>
+            <Route exact path="/" component={Landing} />
+            <Route exact path="/journal-setup" component={JournalSetup} />
+            <Route exact path="/journal-entry" component={JournalEntryForm} />
+            <Route
+              exact
+              path="/dashboard"
+              component={(routeProps) => <Dashboard routeProps={routeProps} />}
+            />
+          </Switch>
+        </ErrorBoundary>
       );
     }
     return (

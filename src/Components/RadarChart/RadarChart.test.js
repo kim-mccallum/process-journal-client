@@ -1,13 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import App from "./App";
+import RadarChart from "./RadarChart";
 
 it("renders without crashing", () => {
   const div = document.createElement("div");
+  let ctx = document.getElementById("dashboard-radar-chart").getContext("2d");
   ReactDOM.render(
     <BrowserRouter>
-      <App />
+      <RadarChart />
     </BrowserRouter>,
     div
   );

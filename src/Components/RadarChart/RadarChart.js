@@ -66,7 +66,6 @@ export default class RadarChart extends Component {
   };
 
   render() {
-    // console.log(this.props.data);
     return (
       <div className="habit-chart-container">
         <canvas id="dashboard-radar-chart"></canvas>

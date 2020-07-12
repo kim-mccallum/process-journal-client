@@ -148,6 +148,9 @@ select {
   margin: 5px auto;
   padding: 5px;
 }
+.error-message {
+  color: #d7431d;
+}
 
 .validationError {
   font-size: 16px;
