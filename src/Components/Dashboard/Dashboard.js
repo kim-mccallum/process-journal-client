@@ -185,6 +185,7 @@ class Dashboard extends Component {
   };
 
   render() {
+    console.log(this.state.data.habit);
     // Only summarize their data if they have entries
     let noHabitEntriesMessage = !this.state.habitEntriesAvailable ? (
       <div className="error-message-container">

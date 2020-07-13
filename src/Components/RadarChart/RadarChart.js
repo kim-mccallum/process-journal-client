@@ -1,15 +1,14 @@
 import React, { Component } from "react";
-import Chart from "chart.js";
+// import Chart from "chart.js";
+import { Radar } from "react-chartjs-2";
 
 // to build the chart after creating canvas make this a class component
 export default class RadarChart extends Component {
   componentDidMount() {
-    this.buildGraph();
+    // Nothing to do in here?
   }
 
   buildGraph = () => {
-    let ctx = document.getElementById("dashboard-radar-chart").getContext("2d");
-
     let options = {
       title: {
         display: true,
@@ -43,11 +42,7 @@ export default class RadarChart extends Component {
     data.labels = Object.keys(this.props.habitData);
     data.datasets[0].data = this.calcPercentage();
 
-    var myRadarChart = new Chart(ctx, {
-      type: "radar",
-      data: data,
-      options: options,
-    });
+    return { data, options };
   };
 
   calcPercentage = () => {
@@ -66,9 +61,15 @@ export default class RadarChart extends Component {
   };
 
   render() {
+    if (!this.props.data) {
+      return null;
+    }
+
+    let graphData = this.buildGraph();
     return (
       <div className="habit-chart-container">
-        <canvas id="dashboard-radar-chart"></canvas>
+        {/* <canvas id="dashboard-radar-chart"></canvas> */}
+        <Radar data={graphData.data} options={graphData.options} />
       </div>
     );
   }
