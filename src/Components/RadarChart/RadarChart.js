@@ -61,9 +61,9 @@ export default class RadarChart extends Component {
   };
 
   render() {
-    if (!this.props.data) {
-      return null;
-    }
+    // if (!this.props.data) {
+    //   return null;
+    // }
 
     let graphData = this.buildGraph();
     return (
